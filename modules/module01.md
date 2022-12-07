@@ -45,99 +45,33 @@ When planning your Microsoft dedicated SQL pool deployment using Azure Synapse, 
     
 4. Once in the Management Hub, navigate to the SQL pools section to see the current list of SQL pools that are available in the workspace. Select + New command and the new SQL pool create wizard will appear.
 
-    ![Networking](../images/module01/01.04-create-networking.png)
+    ![Create SQL pool](../images/module01/01-04-create-sqlpool.png)
 
 5. Enter the following details in the Basics tab:
 
-| Setting	| Suggested value	| Description | 
-| SQL pool name	| mySampleDataWarehouse 	| This is the name that the dedicated SQL pool will have. |
-| Performance level	| DW1000c	| Set this to the smallest size to reduce costs for this quickstart. |
+| #  | Setting | Suggested value | Description |
+| --- | --- | --- | --- |
+| 1 | SQL pool name | mySampleDataWarehouse | This is the name that the dedicated SQL pool will have |
+| 2 | Performance level | DW1000c | Set this to the smallest size to reduce costs for this quickstart |
 
-    ![Create dedicated sql pool](../images/module01/01-05-create-sqlpool.png)
 
-    
+    ![Create dedicated sql pool](../images/module01/01-05-configure-sqlpool.png)    
 
-6. Wait several minutes while your deployment is in progress. Once complete, click **Go to resource**.
+6. In the next tab, Additional settings, select none to provision the SQL pool without data. Leave the default collation as selected.
+If you want to restore your dedicated SQL pool from a restore point, select Restore point. For more information on how to perform a restore, see [How-to: Restore an existing dedicated SQL pool](https://learn.microsoft.com/en-us/azure/synapse-analytics/backuprestore/restore-sql-pool)
 
-    ![Go to resource](../images/module01/01.06-goto-resource.png)
+    ![additional settings](../images/module01/01-06-additional-setting.png)
 
-<div align="right"><a href="#module-01---create-a-microsoft-purview-account">↥ back to top</a></div>
+7. We won't add any tags for now, so next select Review + create. In the Review + create tab, make sure that the details look correct based on what was previously entered, and press create.
 
-## 2. Grant Access to Microsoft Purview's Data Plane
+    ![createSQLpool](../images/module01/01-07-create-sqlpool.png)
 
-By default, the identity used to create the Microsoft Purview account resource will have full access to the Microsoft Purview Governance Portal. The following instructions detail how to provide access to additional users within your Azure Active Directory.
+8. At this point, the resource provisioning flow will start. After the provisioning completes, navigating back to the workspace will show a new entry for the newly created SQL pool.
 
-1. Navigate to your Microsoft Purview account and click the **Open Microsoft Purview Governance Portal** tile.
-
-    ![Access Control](../images/module01/01.07-open-studio.png)
-
-2. On the left-hand side, navigate to **Data map**.
-
-    ![Add Role Assignment](../images/module01/01.08-studio-datamap.png)
-
-3. Select **Collections**.
-
-    ![Collections](../images/module01/01.09-datamap-collections.png)
-
-4. Select **Role assignments**.
-
-    ![Role assignments](../images/module01/01.10-collections-roleassignments.png)
-
-5. On the right-hand side of **Data curators**, click the **Add** icon.
-
-    ![Add Role Assignment](../images/module01/01.11-roleassignments-datacurator.png)
-
-6. Search for another user within your Azure Active Directory, select their account, click **OK**.
-
-    ![Add or Remove Data Curators](../images/module01/01.12-datacurator-add.png)
-
-    > :bulb: **Did you know?**
-    >
-    > Microsoft Purview has a set of predefined data plane roles that can be used to control who can access what.
-    >
-    > For more information, check out [Access control in Microsoft Purview](https://docs.microsoft.com/azure/purview/catalog-permissions).
-
-    | Role  | Collections | Catalog | Sources/Scans | Description |
-    | --- | --- | --- | --- | --- |
-    | Collection Admin | `Read/Write` | | | Manage collections and role assignments. |
-    | Data Reader ||  `Read` |  | Access to catalog (read only). |
-    | Data Curator || `Read/Write` |  | Access to catalog (read & write). |
-    | Data Source Admin |  || `Read/Write` | Manage data sources and data scans. |
-
-<div align="right"><a href="#module-01---create-a-microsoft-purview-account">↥ back to top</a></div>
-
-## :mortar_board: Knowledge Check
-
-[https://aka.ms/purviewlab/q01](https://aka.ms/purviewlab/q01)
-
-1. Which of the following Microsoft Purview pricing meters is **serverless** and used to support **data map population** through scanning and ingestion jobs?
-
-    A ) Capacity Units  
-    B ) vCore Hours  
-    C ) Neither
-
-2. Which of the following Microsoft Purview pricing meters is **always on** and used to support **data map consumption** through capacity and storage?
-
-    A ) Capacity Units  
-    B ) vCore Hours  
-    C ) Neither
-
-3. Which Microsoft Purview **feature** is included and billed with the consumption of the **data map**?
-
-    A ) Data Estate Insights  
-    B ) Search and browse of data assets  
-    C ) SQL DevOps access
-
-4. Which predefined Microsoft Purview role provides access to **manage data sources**?
-
-    A ) Purview Data Reader  
-    B ) Purview Data Curator  
-    C ) Purview Data Source Administrator
-
-<div align="right"><a href="#module-01---create-a-microsoft-purview-account">↥ back to top</a></div>
+<div align="right"><a href="#Module-01---Create a dedicated SQL pool in Azure Synapse Analytics Studio">↥ back to top</a></div>
 
 ## :tada: Summary
 
-This module provided an overview of how to provision a Microsoft Purview account using the Azure Portal and how to grant the appropriate level of access to Microsoft Purview's data plane.
+Here you have just created the dedicated SQL pool; now it will be available in the workspace for loading data, processing streams, reading from the lake, etc.
 
-[Continue >](../modules/module02a.md)
+[Continue >](../modules/module01a.md)
