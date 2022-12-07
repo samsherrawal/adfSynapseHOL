@@ -21,7 +21,7 @@ Azure Data Factory is Azure's cloud ETL service for scale-out serverless data in
 
 1. [Create a dedicated SQL pool in Azure Synapse Analytics Studio](./modules/module01.md)  
 
-1a. [Load New York Taxi dataset into Synapse](./modules/module01a.md)
+ 1a. [Load New York Taxi dataset into Synapse](./modules/module01a.md)
 
 2. [Perform transformation in Azure Data Factory(ADF)](./modules/module02.md)
 

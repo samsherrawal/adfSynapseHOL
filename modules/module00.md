@@ -26,7 +26,7 @@ In order to follow along with the Microsoft ADF lab exercises, you need to provi
 
 1. Right-click or `Ctrl + click` the button below to open the Azure Portal in a new window.
 
-    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2samsherrawal%2FadfSynapseHOL%2Fmain%2Ftemplate%2Fazuredeploy.json)
+    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsamsherrawal%2FadfSynapseHOL%2Fmain%2Ftemplate%2Fazuredeploy.json)
 
 2. Beneath the **Resource group** field, click **Create new** and provide a unique name (e.g. `adflab-rg`), select a [valid location](https://azure.microsoft.com/global-infrastructure/services/?products=ADF&regions=all) (e.g. `West Europe`), and then click **Review + create**.
 
