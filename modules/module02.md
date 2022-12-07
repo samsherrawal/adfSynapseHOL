@@ -28,8 +28,6 @@ In this module, you'll walk through how to create pipelines in ADF to perform si
 * Create a simple ETL pipeline to perform simple transformation operations in ADF.
 * Debug and publish Azure Data Factory(ADF) pipelines and add trigger for automated scheduling of ADF pipeline runs.
 
-<div align="right"><a href="#Module-02---Transformation-using-ADF">↥ back to top</a></div>
-
 ## 1. Grant the Microsoft Purview Managed Identity Access
 
 > :bulb: **Did you know?**
@@ -67,7 +65,6 @@ In this module, you'll walk through how to create pipelines in ADF to perform si
 
     ![Role Assignment](../images/module02/02.11-role-assignment.png)
 
-<div align="right"><a href="#module-02a---register--scan-adls-gen2">↥ back to top</a></div>
 
 ## 2. Upload Data to Azure Data Lake Storage Gen2 Account
 
@@ -111,7 +108,6 @@ Before proceeding with the following steps, you will need to:
 
     ![Transfer Complete](../images/module02/02.17-explorer-transfer.png)
 
-<div align="right"><a href="#module-02a---register--scan-adls-gen2">↥ back to top</a></div>
 
 ## 3. Create a Collection
 
@@ -129,7 +125,6 @@ Before proceeding with the following steps, you will need to:
 
     ![New Collection](../images/module02/02.76-collection-create.png)
 
-<div align="right"><a href="#module-02a---register--scan-adls-gen2">↥ back to top</a></div>
 
 ## 4. Register a Source (ADLS Gen2)
 

@@ -11,8 +11,6 @@ For this lab, we are following step by step instructions, and the SQL scripts pr
 
 2. Make sure to come back and proceed with Module 2 once you complete the above hands on tutorial!
 
-<div align="right"><a href="#Module-01---Pull-New-York-Taxicab-dataset-from-URL-and-directly-load-into-synapse">↥ back to top</a></div>
-
 ## :tada: Summary
 
 This module provided an overview of how to create warehouse schemas and populate blob data into the Azure Synapse warehouse and how to grant the appropriate level of access to data loader role using SSMS.
