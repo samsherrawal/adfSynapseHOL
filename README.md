@@ -15,21 +15,21 @@ Azure Data Factory is Azure's cloud ETL service for scale-out serverless data in
 
 ## :test_tube: Lab Environment Setup
 
-* [Lab Environment](./modules/module00.md)
+* [Module00: Lab Environment](./modules/module00.md)
 
 ## :books: Learning Modules
 
-0. [Lab Environment Setup](./modules/module00.md)
+1. [Module01: Create a dedicated SQL pool in Azure Synapse Analytics Studio](./modules/module01.md)  
 
-1. [Create a dedicated SQL pool in Azure Synapse Analytics Studio](./modules/module01.md)  
+1a. [Module01a: Load New York Taxi dataset into Synapse Using Microsoft Learn Demo](./modules/module01a.md)
 
-1a. [Load New York Taxi dataset into Synapse](./modules/module01a.md)
+2. [Module02: Load Data into Azure Synapse Analytics using Azure Data Factory Pipelines](./modules/module02.md)
 
-2. [Perform transformation in Azure Data Factory(ADF)](./modules/module02.md)
+3. [Module03: Transform Big Data using Azure Data Factory Mapping Data Flows](./modules/module03.md)
 
-3. [Create self-hosted integration runtime within ADF](./modules/module03.md)
+3. [Module04: Create self-hosted integration runtime within ADF](./modules/module04.md)
 
-4. [Synapse - dedicated SQL pool](./modules/module04.md)
+4. [Module05: Synapse - dedicated SQL pool](./modules/module05.md)
 
 
 

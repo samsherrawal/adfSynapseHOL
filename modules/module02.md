@@ -1,4 +1,4 @@
-# Lab 1: Load Data into Azure Synapse Analytics using Azure Data Factory Pipelines
+# Module 02: Load Data into Azure Synapse Analytics using Azure Data Factory Pipelines
 
 In this lab, the dataset you will use contains data about motor vehicle collisions that happened in New Your City from 2012 to 2019 stored in a relational database. You will configure the Azure environment to allow relational data to be transferred from an Azure SQL Database to an Azure Synapse Analytics data warehouse using Azure Data Factory also staging to Azure Data Lake storage. You will use Power BI to visualise collision data loaded from your Azure Synapse data warehouse.
 
