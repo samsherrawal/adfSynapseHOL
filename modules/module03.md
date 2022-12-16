@@ -1,4 +1,9 @@
 # Moduel 03: Transform Big Data using Azure Data Factory Mapping Data Flows
+
+
+[< Previous Module](../modules/module02.md) - **[Home](../README.md)** - [Next Module >](../modules/module04.md)
+
+
 In this lab the dataset you will use contains detailed New York City Yellow Taxi rides for the first half of 2019. You will use Azure Data Factory to download large data files to your data lake. You will generate a daily aggregated summary of all rides from data lake using Mapping Data Flows and save the resulting dataset in your Azure Synapse Analytics. You will use Power BI to visualise summarised taxi ride data.
 
 The estimated time to complete this lab is: **60 minutes**.
@@ -905,3 +910,6 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 9.	Save your work and close Power BI Desktop.
 
     ![](../images/module03/Lab2-Image40.png)
+
+
+[Continue >](../modules/module04.md)

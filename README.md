@@ -29,7 +29,7 @@ Azure Data Factory is Azure's cloud ETL service for scale-out serverless data in
 
 3. [Module04: Create self-hosted integration runtime within ADF](./modules/module04.md)
 
-4. [Module05: Synapse - dedicated SQL pool](./modules/module05.md)
+4. [Module05: Synapse - dedicated spark pool](./modules/module05.md)
 
 
 

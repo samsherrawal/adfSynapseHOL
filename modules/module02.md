@@ -1,5 +1,7 @@
 # Module 02: Load Data into Azure Synapse Analytics using Azure Data Factory Pipelines
 
+[< Previous Module](../modules/module01a.md) - **[Home](../README.md)** - [Next Module >](../modules/module03.md)
+
 In this lab, the dataset you will use contains data about motor vehicle collisions that happened in New Your City from 2012 to 2019 stored in a relational database. You will configure the Azure environment to allow relational data to be transferred from an Azure SQL Database to an Azure Synapse Analytics data warehouse using Azure Data Factory also staging to Azure Data Lake storage. You will use Power BI to visualise collision data loaded from your Azure Synapse data warehouse.
 
 The estimated time to complete this lab is: **45 minutes**.
@@ -399,3 +401,6 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 7.	Save your work and close Power BI Desktop.
 
     ![](../images/module02/Lab1-Image51.png)
+
+
+[Continue >](../modules/module03.md)
