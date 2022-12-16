@@ -17,14 +17,14 @@ Azure Data Lake Storage Gen2 | [Large Scale Data Processing with Azure Data Lake
 
 ## Lab Architecture
 
-[Lab Architecture](./images/module02/Lab1-Image01.png)
+[Lab Architecture](../images/module02/Lab1-Image01.png)
 
 Step     | Description
 -------- | -----
-1. | Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
-2. | Use Azure Data Lake Storage Gen2 as a staging area for Polybase
-3.| Load data to an Azure Synapse Analytics table using Polybase
-4. | Visualize data from Azure Synapse Analytics using Power BI
+1       |Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
+2       |Use Azure Data Lake Storage Gen2 as a staging area for Polybase
+3       |Load data to an Azure Synapse Analytics table using Polybase
+4       |Visualize data from Azure Synapse Analytics using Power BI
 
 **IMPORTANT**: Some of the Azure services provisioned require globally unique name and a “-suffix” has been added to their names to ensure this uniqueness. Please take note of the suffix generated as you will need it for the following resources in this lab:
 
@@ -62,12 +62,12 @@ In this section you are going to establish a Remote Desktop Connection to ADPDes
 
 6. If you connected successfully using RDP, skip this step and go to the next section. If you faced any connectivity issues connecting via Remote Desktop Protocol (RDP), you can try connect via Azure Bastion by clicking the **Bastion** tab and providing the credentials indicated in the next section. This will open a new browser tab with the remote connection via SSL and HTML5.
 
-    ![](./images/module02/Lab1-Image54.png)
+    ![](../images/module02/Lab1-Image54.png)
 
 ## Install required software onto ADPDesktop
 In this section you are going to install Azure Data Studio and Power BI Desktop on ADPDesktop.
 
-![](./images/module02/Lab1-Image04.jpg)
+![](../images/module02/Lab1-Image04.jpg)
 
 **IMPORTANT**|
 -------------|
@@ -88,7 +88,7 @@ In this section you are going to install Azure Data Studio and Power BI Desktop 
 ## Create Azure Synapse Analytics data warehouse objects
 In this section you will connect to Azure Synapse Analytics to create the database objects used to host and process data.
 
-![](./images/module02/Lab1-Image10.png)
+![](../images/module02/Lab1-Image10.png)
 
 **IMPORTANT**|
 -------------|
@@ -96,7 +96,7 @@ In this section you will connect to Azure Synapse Analytics to create the databa
 
 1.	Open Azure Data Studio. On the Servers panel, click **New Connection**.
 
-    ![](./images/module02/Lab1-Image11.png)
+    ![](../images/module02/Lab1-Image11.png)
 
 2.	On the **Connection Details** panel, enter the following connection details:
     <br> - **Server**: synapsesql-*suffix*.database.windows.net
@@ -107,11 +107,11 @@ In this section you will connect to Azure Synapse Analytics to create the databa
 
 3.	Click **Connect**.
 
-    ![](./images/module02/Lab1-Image08.png)
+    ![](../images/module02/Lab1-Image08.png)
 
 4.	Right-click the server name and click **New Query**.
 
-    ![](./images/module02/Lab1-Image12.png)
+    ![](../images/module02/Lab1-Image12.png)
 
 5.	On the new query window, create a new database schema named [NYC]. Use this SQL Command:
 
@@ -165,7 +165,7 @@ go
 ## Create Azure Data Factory Pipeline to Copy Relational Data
 In this section you will build an Azure Data Factory pipeline to copy a table from NYCDataSets database to Azure Synapse Analytics data warehouse.
 
-![](./images/module02/Lab1-Image28.jpg)
+![](../images/module02/Lab1-Image28.jpg)
 
 ### Create Linked Service connections
 
@@ -177,16 +177,16 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
 
 2.	On the **Overview** panel, click **Author & Monitor**. The **Azure Data Factory** portal will open in a new browser tab.
 
-    ![](./images/module02/Lab1-Image55.png)
+    ![](../images/module02/Lab1-Image55.png)
 
 
 3. In the **Azure Data Factory** portal and click the **Manage *(toolcase icon)*** option on the left-hand side panel. Under **Linked services** menu item, click **+ New** to create a new linked service connection.
 
-    ![](./images/module02/Lab1-Image29.png)
+    ![](../images/module02/Lab1-Image29.png)
 
 2.	On the **New Linked Service** blade, type “Azure SQL Database” in the search box to find the **Azure SQL Database** linked service. Click **Continue**.
 
-    ![](./images/module02/Lab1-Image30.png)
+    ![](../images/module02/Lab1-Image30.png)
 
 3.	On the **New Linked Service (Azure SQL Database)** blade, enter the following details:
     <br>- **Name**: OperationalSQL_NYCDataSets
@@ -200,11 +200,11 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
 
 4.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
-    ![](./images/module02/Lab1-Image31.png)
+    ![](../images/module02/Lab1-Image31.png)
 
 5.	Repeat the process to create an **Azure Synapse Analytics** linked service connection.
 
-    ![](./images/module02/Lab1-Image32.png)
+    ![](../images/module02/Lab1-Image32.png)
 
 6.	On the New Linked Service (Azure Synapse Analytics) blade, enter the following details:
     <br>- **Name**: SynapseSQL_SynapseDW
@@ -233,11 +233,11 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Storage account name**: synapsedatalake*suffix*
 10.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
-    ![](./images/module02/Lab1-Image35.png)
+    ![](../images/module02/Lab1-Image35.png)
 
 11.	You should now see 3 linked services connections that will be used as source, destination and staging.
 
-    ![](./images/module02/Lab1-Image36.png)
+    ![](../images/module02/Lab1-Image36.png)
 
 ### Create Source and Destination Data Sets
 
@@ -247,11 +247,11 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
 
 1.	Open the **Azure Data Factory** portal and click the **Author *(pencil icon)*** option on the left-hand side panel. Under **Factory Resources** tab, click the ellipsis **(…)** next to **Datasets** and then click **New Dataset** to create a new dataset.
 
-    ![](./images/module02/Lab1-Image37.png)
+    ![](../images/module02/Lab1-Image37.png)
 
 2.	Type "Azure SQL Database" in the search box and select **Azure SQL Database**. Click **Finish**.
 
-    ![](./images/module02/Lab1-Image38.png)
+    ![](../images/module02/Lab1-Image38.png)
 
 3.	On the **New Data Set** tab, enter the following details:
     <br>- **Name**: NYCDataSets_MotorVehicleCollisions
@@ -284,11 +284,11 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
 
 4.	Leave remaining fields with default values and click **Continue**.
 
-    ![](./images/module02/Lab1-Image39.png)
+    ![](../images/module02/Lab1-Image39.png)
 
 5.	Repeat the process to create a new **Azure Synapse Analytics** data set.
 
-    ![](./images/module02/Lab1-Image40.png)
+    ![](../images/module02/Lab1-Image40.png)
 
 6.	On the **New Data Set** tab, enter the following details:
     <br>- **Name**: SynapseDW_MotorVehicleCollisions
@@ -321,17 +321,17 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
 
 7.	Leave remaining fields with default values and click **Continue**.
 
-    ![](./images/module02/Lab1-Image41.png)
+    ![](../images/module02/Lab1-Image41.png)
 
 8. Under **Factory Resources** tab, click the ellipsis **(…)** next to **Datasets** and then click **New folder** to create a new Folder. Name it **Lab1**.
 
 9. Drag the two datasets created into the **Lab1** folder you just created.
 
-    ![](./images/module02/Lab1-Image53.png)
+    ![](../images/module02/Lab1-Image53.png)
 
 10.	Publish your dataset changes by clicking the **Publish All** button on the top of the screen.
 
-    ![](./images/module02/Lab1-Image42.png)
+    ![](../images/module02/Lab1-Image42.png)
 
 ### Create and Execute Pipeline
 
@@ -344,7 +344,7 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **General > Name**: Lab1 - Copy Collision Data
 3.	Leave remaining fields with default values.
 
-    ![](./images/module02/Lab1-Image43.png)
+    ![](../images/module02/Lab1-Image43.png)
 
 4.	From the **Activities** panel, type “Copy Data” in the search box. Drag the **Copy Data** activity on to the design surface.
 5.	Select the **Copy Data** activity and enter the following details:
@@ -357,23 +357,23 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Settings > Storage Path**: polybase
 6.	Leave remaining fields with default values.
 
-    ![](./images/module02/Lab1-Image44.png)
-    ![](./images/module02/Lab1-Image45.png)
-    ![](./images/module02/Lab1-Image46.png)
+    ![](../images/module02/Lab1-Image44.png)
+    ![](../images/module02/Lab1-Image45.png)
+    ![](../images/module02/Lab1-Image46.png)
 
 7.	Publish your pipeline changes by clicking the **Publish all** button.
 
-    ![](./images/module02/Lab1-Image47.png)
+    ![](../images/module02/Lab1-Image47.png)
 
 8.	To execute the pipeline, click on **Add trigger** menu and then **Trigger Now**.
 9.	On the **Pipeline Run** blade, click **Finish**.
 
-    ![](./images/module02/Lab1-Image48.png)
+    ![](../images/module02/Lab1-Image48.png)
 
 10.	To monitor the execution of your pipeline, click on the **Monitor** menu on the left-hand side panel.
 11.	You should be able to see the Status of your pipeline execution on the right-hand side panel.
 
-    ![](./images/module02/Lab1-Image49updated.png)
+    ![](../images/module02/Lab1-Image49updated.png)
 
 ## Visualize Data with Power BI
 In this section you are going to use Power BI to visualize data from Azure Synapse Analytics. The Power BI report will use an Import connection to query Azure Synapse Analytics and visualise Motor Vehicle Collision data from the table you loaded in the previous exercise.
@@ -398,4 +398,4 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 6.	Once the data is finished loading, interact with the report by changing the CollisionDate slicer and by clicking on the other visualisations.
 7.	Save your work and close Power BI Desktop.
 
-    ![](./images/module02/Lab1-Image51.png)
+    ![](../images/module02/Lab1-Image51.png)
