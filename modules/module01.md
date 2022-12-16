@@ -31,38 +31,52 @@ When planning your Microsoft dedicated SQL pool deployment using Azure Synapse, 
 
 1. Sign in to the [Azure portal](https://portal.azure.com), navigate to the previously created Synapse workspace where the dedicated SQL pool will be created by typing the service name (or resource name directly) into the search bar.
 
-    ![NavigateSynapseWorkspace](../images/module01/01- 01-synapse-workspace.png)  
+
+    ![NavigateSynapseWorkspace](../images/module01/01- 01-synapse-workspace.png) 
+
 
 2. From the list of workspaces, type the name (or part of the name) of the workspace to open. For this example, we'll use a workspace named adflab-(*i*randomid)-synapse. Click 'open' on the synapse studio box which will take you to the Synapse Studio.
 
+
     ![Create Purview Resource](../images/module01/01-02-synapse-studio.png)
+
 
 3. On the Synapse Studio home page, navigate to the Management Hub in the left navigation by selecting the Manage icon.
 
+
     ![Create dedicated sql pool](../images/module01/01-03-synapse-manage.png)
+
 
     
 4. Once in the Management Hub, navigate to the SQL pools section to see the current list of SQL pools that are available in the workspace. Select + New command and the new SQL pool create wizard will appear.
 
+
     ![Create SQL pool](../images/module01/01-04-create-sqlpool.png)
+
 
 5. Enter the following details in the Basics tab:
 
 | #  | Setting | Suggested value | Description |
 | --- | --- | --- | --- |
 | 1 | SQL pool name | mySampleDataWarehouse | This is the name that the dedicated SQL pool will have |
-| 2 | Performance level | DW1000c | Set this to the smallest size to reduce costs for this quickstart |
+| 2 | Performance level | DW1000c | Set this to the indicated size to provide the optimal performance for the Lab |
 
- ![Create dedicated sql pool](../images/module01/01-05-configure-sqlpool.png)    
+
+ ![Create dedicated sql pool](../images/module01/01-05-configure-sqlpool.png)   
+
 
 6. In the next tab, Additional settings, select none to provision the SQL pool without data. Leave the default collation as selected.
 If you want to restore your dedicated SQL pool from a restore point, select Restore point. For more information on how to perform a restore, see [How-to: Restore an existing dedicated SQL pool](https://learn.microsoft.com/en-us/azure/synapse-analytics/backuprestore/restore-sql-pool)
 
+
    ![additional settings](../images/module01/01-06-additional-setting.png)
+
 
 7. We won't add any tags for now, so next select Review + create. In the Review + create tab, make sure that the details look correct based on what was previously entered, and press create.
 
+
     ![createSQLpool](../images/module01/01-07-create-sqlpool.png)
+    
 
 8. At this point, the resource provisioning flow will start. After the provisioning completes, navigating back to the workspace will show a new entry for the newly created SQL pool.
 

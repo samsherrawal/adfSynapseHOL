@@ -1,4 +1,4 @@
-# Module 01 - Pull New York Taxicab dataset from URL and directly load into synapse
+# Module 01a - Pull New York Taxicab dataset from URL and directly load into synapse
 
 
 [< Previous Module](../modules/module01.md) - **[Home](../README.md)** - [Next Module >](../modules/module02.md)

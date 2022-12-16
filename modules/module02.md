@@ -1,229 +1,400 @@
-# Module 02 - Transformation using ADF
+# Lab 1: Load Data into Azure Synapse Analytics using Azure Data Factory Pipelines
 
-[< Previous Module](../modules/module01.md) - **[Home](../README.md)** - [Next Module >](../modules/module03.md)
+In this lab, the dataset you will use contains data about motor vehicle collisions that happened in New Your City from 2012 to 2019 stored in a relational database. You will configure the Azure environment to allow relational data to be transferred from an Azure SQL Database to an Azure Synapse Analytics data warehouse using Azure Data Factory also staging to Azure Data Lake storage. You will use Power BI to visualise collision data loaded from your Azure Synapse data warehouse.
 
-## :loudspeaker: Introduction
+The estimated time to complete this lab is: **45 minutes**.
 
-In this module, you'll walk through how to create pipelines in ADF to perform simple transformation. You'll create a new pipeline for your first data source, upload data and configure scanning. By the end of this module you'll have technical understanding of all the building blocks of Azure Data Factory listed below.
+## Microsoft Learn & Technical Documentation
 
-* Pipelines
-* Activity
-* Datasets
-* Linked Services
-* Integration Runtimes
-* Triggers
+The following Azure services will be used in this lab. If you need further training resources or access to technical documentation please find in the table below links to Microsoft Learn and to each service's Technical Documentation.
 
+Azure Service | Microsoft Learn | Technical Documentation|
+--------------|-----------------|------------------------|
+Azure SQL Database | [Work with relational data in Azure](https://docs.microsoft.com/en-us/learn/paths/work-with-relational-data-in-azure/) | [Azure SQL Database Technical Documentation](https://docs.microsoft.com/en-us/azure/sql-database/)
+Azure Data Factory | [Data ingestion with Azure Data Factory](https://docs.microsoft.com/en-us/learn/modules/data-ingestion-with-azure-data-factory/)| [Azure Data Factory Technical Documentation](https://docs.microsoft.com/en-us/azure/data-factory/)
+Azure Synapse Analytics | [Implement a Data Warehouse with Azure Synapse Analytics](https://docs.microsoft.com/en-us/learn/paths/implement-sql-data-warehouse/) | [Azure Synapse Analytics Technical Documentation](https://docs.microsoft.com/en-us/azure/sql-data-warehouse/)
+Azure Data Lake Storage Gen2 | [Large Scale Data Processing with Azure Data Lake Storage Gen2](https://docs.microsoft.com/en-us/learn/paths/data-processing-with-azure-adls/) | [Azure Data Lake Storage Gen2 Technical Documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction)
 
-## :thinking: Prerequisites
+## Lab Architecture
+![Lab Architecture](./images/module02/Lab1-Image01.png)
 
-* An [Azure account](https://azure.microsoft.com/free/) with an active subscription.
-* All Azure resources such as ADF, Azure SQL Database, ADLS Gen 2, etc provisioned in previous modules. (see [module 00](../modules/module00.md)).
+Step     | Description
+-------- | -----
+![1](./images/module02/Black1.png) | Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
+![2](./images/module02/Black2.png) | Use Azure Data Lake Storage Gen2 as a staging area for Polybase
+![3](./images/module02/Black3.png) | Load data to an Azure Synapse Analytics table using Polybase
+![4](./images/module02/Black4.png) | Visualize data from Azure Synapse Analytics using Power BI
 
-## :hammer: Tools
+**IMPORTANT**: Some of the Azure services provisioned require globally unique name and a “-suffix” has been added to their names to ensure this uniqueness. Please take note of the suffix generated as you will need it for the following resources in this lab:
 
-* [Azure Storage Explorer](https://azure.microsoft.com/features/storage-explorer/) (Download and Install)
+Name	                     |Type
+-----------------------------|--------------------
+SynapseDataFactory-*suffix*	     |Data Factory (V2)
+synapsedatalake*suffix*	         |Data Lake Storage Gen2
+synapsesql-*suffix* |SQL server
+operationalsql-*suffix* |SQL server
 
-## :dart: Objectives
+## Connect to ADPDesktop
+In this section you are going to establish a Remote Desktop Connection to ADPDesktop virtual machine.
 
-* Create a simple ETL pipeline to perform simple transformation operations in ADF.
-* Debug and publish Azure Data Factory(ADF) pipelines and add trigger for automated scheduling of ADF pipeline runs.
+**IMPORTANT**: If you are executing the lab in a Spektra CloudLabs environment, you will be automatically connected to the ADPDesktop VM and there is no need to execute the steps below. You can skip to the next section **Install required software onto ADPDesktop**.
 
-## 1. Grant the Microsoft Purview Managed Identity Access
+**IMPORTANT**|
+-------------|
+**Execute these steps on your host computer**|
 
-> :bulb: **Did you know?**
->
-> To scan a source, Microsoft Purview requires a set of **credentials**. For Azure Data Lake Storage Gen2, Microsoft Purview supports the following [authentication methods](https://docs.microsoft.com/azure/purview/register-scan-adls-gen2?tabs=MI#prerequisites-for-scan).
->
-> * System-assigned Managed Identity (recommended)
-> * User-assigned Managed Identity
-> * Service Principal
-> * Account Key
->
-> In this module we will walk through how to grant the Microsoft Purview system-assigned managed identity the necessary access to successfully configure and run a scan.
+1.	In the Azure Portal, navigate to the lab resource group and click the **ADPDesktop** virtual machine.
 
-1. Navigate to your Azure Data Lake Storage Gen2 account (e.g. `pvlab{randomId}adls`) and select **Access Control (IAM)** from the left navigation menu.
+2.	On the ADPDesktop blade, from the Overview menu, click the Connect button.
 
-    ![Microsoft Purview](../images/module02/02.01-storage-access.png)
+    ![](./images/module02/Lab1-Image02.png)
 
-2. Click **Add role assignment**.
+3.	On the **Connect to virtual machine** blade, click **Download RDP File**. This will download a .rdp file that you can use to establish a Remote Desktop Connection with the virtual machine.
 
-    ![Microsoft Purview](../images/module02/02.02-storage-addrole.png)
+    ![](./images/module02/Lab1-Image03.png)
 
-3. Filter the list of roles by searching for `Storage Blob Data Reader`, click the row to select the role, and then click **Next**.
+4.	Once the RDP file is downloaded, click on it to establish an RDP connection with ADPDesktop
 
-    ![Access Control Role](../images/module02/02.03-access-role.png)
+5.	User the following credentials to authenticate:
+    <br>- **User Name**: ADPAdmin
+    <br>- **Password**: P@ssw0rd123!
 
-4. Under **Assign access to**, select **Managed identity**, click **+ Select members**, select **Microsoft Purview account** from the **Managed Identity** drop-down menu, select the managed identity for your Microsoft Purview account (e.g. `pvlab-{randomId}-pv`), click **Select**. Finally, click **Review + assign**.
+6. If you connected successfully using RDP, skip this step and go to the next section. If you faced any connectivity issues connecting via Remote Desktop Protocol (RDP), you can try connect via Azure Bastion by clicking the **Bastion** tab and providing the credentials indicated in the next section. This will open a new browser tab with the remote connection via SSL and HTML5.
+
+    ![](./images/module02/Lab1-Image54.png)
 
-    ![Access Control Members](../images/module02/02.05-access-members.png)
+## Install required software onto ADPDesktop
+In this section you are going to install Azure Data Studio and Power BI Desktop on ADPDesktop.
 
-5. Click **Review + assign** once more to perform the role assignment.
+![](./images/module02/Lab1-Image04.jpg)
 
-    ![Access Control Assign](../images/module02/02.06-access-assign.png)
+**IMPORTANT**|
+-------------|
+**Execute these steps inside the ADPDesktop remote desktop connection**|
 
-6. To confirm the role has been assigned, navigate to the **Role assignments** tab and filter the **Scope** to `This resource`. You should be able to see that the Microsoft Purview managed identity has been granted the **Storage Blob Data Reader** role.
+3.	Once logged in, accept the default privacy settings.
 
-    ![Role Assignment](../images/module02/02.11-role-assignment.png)
+4.	Using the browser, download and install the latest version of following software. During the setup, accept all default settings:
+    <br>
+    <br> **Azure Data Studio (User Installer)**
+    <br>https://docs.microsoft.com/en-us/sql/azure-data-studio/download
+    <br>![](./images/module02/Lab1-Image05.png)
+    <br>
+    <br>**Power BI Desktop (64-bit)**
+    <br>https://aka.ms/pbiSingleInstaller
+    <br>![](./images/module02/Lab1-Image06.png)
 
+## Create Azure Synapse Analytics data warehouse objects
+In this section you will connect to Azure Synapse Analytics to create the database objects used to host and process data.
 
-## 2. Upload Data to Azure Data Lake Storage Gen2 Account
+![](./images/module02/Lab1-Image10.png)
 
-Before proceeding with the following steps, you will need to:
+**IMPORTANT**|
+-------------|
+**Execute these steps inside the ADPDesktop remote desktop connection**|
 
-* Download and install [Azure Storage Explorer](https://azure.microsoft.com/features/storage-explorer/).
-* Open Azure Storage Explorer.
-* Sign in to Azure via **View > Account Management > Add an account...**.
+1.	Open Azure Data Studio. On the Servers panel, click **New Connection**.
 
-1. Download a copy of the **[Bing Coronavirus Query Set](https://github.com/tayganr/purviewlab/raw/main/assets/BingCoronavirusQuerySet.zip)** to your local machine. Note: This data set was originally sourced from [Microsoft Research Open Data](https://msropendata.com/datasets/c5031874-835c-48ed-8b6d-31de2dad0654).
+    ![](./images/module02/Lab1-Image11.png)
 
-2. Locate the downloaded zip file via File Explorer and unzip the contents by right-clicking the file and selecting **Extract All...**.
+2.	On the **Connection Details** panel, enter the following connection details:
+    <br> - **Server**: synapsesql-*suffix*.database.windows.net
+    <br>- **Authentication Type**: SQL Login
+    <br>- **User Name**: ADPAdmin
+    <br>- **Password**: P@ssw0rd123!
+    <br>- **Database**: SynapseDW
+
+3.	Click **Connect**.
+
+    ![](./images/module02/Lab1-Image08.png)
+
+4.	Right-click the server name and click **New Query**.
+
+    ![](./images/module02/Lab1-Image12.png)
+
+5.	On the new query window, create a new database schema named [NYC]. Use this SQL Command:
+
+```sql
+create schema [NYC]
+go
+```
+
+6.	Create a new round robin distributed table named NYC.NYPD_MotorVehicleCollisions, see column definitions on the SQL Command:
+
+```sql
+create table [NYC].[NYPD_MotorVehicleCollisions](
+	[UniqueKey] [int] NULL,
+	[CollisionDate] [date] NULL,
+	[CollisionDayOfWeek] [varchar](9) NULL,
+	[CollisionTime] [time](7) NULL,
+	[CollisionTimeAMPM] [varchar](2) NOT NULL,
+	[CollisionTimeBin] [varchar](11) NULL,
+	[Borough] [varchar](200) NULL,
+	[ZipCode] [varchar](20) NULL,
+	[Latitude] [float] NULL,
+	[Longitude] [float] NULL,
+	[Location] [varchar](200) NULL,
+	[OnStreetName] [varchar](200) NULL,
+	[CrossStreetName] [varchar](200) NULL,
+	[OffStreetName] [varchar](200) NULL,
+	[NumberPersonsInjured] [int] NULL,
+	[NumberPersonsKilled] [int] NULL,
+	[IsFatalCollision] [int] NOT NULL,
+	[NumberPedestriansInjured] [int] NULL,
+	[NumberPedestriansKilled] [int] NULL,
+	[NumberCyclistInjured] [int] NULL,
+	[NumberCyclistKilled] [int] NULL,
+	[NumberMotoristInjured] [int] NULL,
+	[NumberMotoristKilled] [int] NULL,
+	[ContributingFactorVehicle1] [varchar](200) NULL,
+	[ContributingFactorVehicle2] [varchar](200) NULL,
+	[ContributingFactorVehicle3] [varchar](200) NULL,
+	[ContributingFactorVehicle4] [varchar](200) NULL,
+	[ContributingFactorVehicle5] [varchar](200) NULL,
+	[VehicleTypeCode1] [varchar](200) NULL,
+	[VehicleTypeCode2] [varchar](200) NULL,
+	[VehicleTypeCode3] [varchar](200) NULL,
+	[VehicleTypeCode4] [varchar](200) NULL,
+	[VehicleTypeCode5] [varchar](200) NULL
+) 
+with (distribution = round_robin)
+go
+```
 
-    ![Extract zip file](../images/module02/02.07-explorer-unzip.png)
+## Create Azure Data Factory Pipeline to Copy Relational Data
+In this section you will build an Azure Data Factory pipeline to copy a table from NYCDataSets database to Azure Synapse Analytics data warehouse.
 
-3. Click **Extract**.
+![](./images/module02/Lab1-Image28.jpg)
 
-    ![Extract](../images/module02/02.08-explorer-extract.png)
+### Create Linked Service connections
+
+**IMPORTANT**|
+-------------|
+**Execute these steps on your host computer**|
+
+1.	In the Azure Portal, go to the lab resource group and locate the Azure Data Factory resource **SynapseDataFactory-*suffix***. 
+
+2.	On the **Overview** panel, click **Author & Monitor**. The **Azure Data Factory** portal will open in a new browser tab.
+
+    ![](./images/module02/Lab1-Image55.png)
+
+
+3. In the **Azure Data Factory** portal and click the **Manage *(toolcase icon)*** option on the left-hand side panel. Under **Linked services** menu item, click **+ New** to create a new linked service connection.
+
+    ![](./images/module02/Lab1-Image29.png)
+
+2.	On the **New Linked Service** blade, type “Azure SQL Database” in the search box to find the **Azure SQL Database** linked service. Click **Continue**.
+
+    ![](./images/module02/Lab1-Image30.png)
+
+3.	On the **New Linked Service (Azure SQL Database)** blade, enter the following details:
+    <br>- **Name**: OperationalSQL_NYCDataSets
+    <br>- **Account selection method**: From Azure subscription
+    <br>- **Azure subscription**: *[your subscription]*
+    <br>- **Server Name**: operationalsql-*suffix*
+    <br>- **Database Name**: NYCDataSets
+    <br>- **Authentication** Type: SQL Authentication 
+    <br>- **User** Name: ADPAdmin
+    <br>- **Password**: P@ssw0rd123!
+
+4.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
+
+    ![](./images/module02/Lab1-Image31.png)
+
+5.	Repeat the process to create an **Azure Synapse Analytics** linked service connection.
+
+    ![](./images/module02/Lab1-Image32.png)
+
+6.	On the New Linked Service (Azure Synapse Analytics) blade, enter the following details:
+    <br>- **Name**: SynapseSQL_SynapseDW
+    <br>- **Connect via integration runtime**: AutoResolveIntegrationRuntime
+    <br>- **Account selection method**: From Azure subscription
+    <br>- **Azure subscription**: *[your subscription]*
+    <br>- **Server Name**: synapsesql-*suffix*
+    <br>- **Database Name**: SynapseDW
+    <br>- **Authentication** Type: SQL Authentication 
+    <br>- **User** Name: ADPAdmin
+    <br>- **Password**: P@ssw0rd123!
+7.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
+
+    ![](./images/module02/Lab1-Image33.png)
+
+8.	Repeat the process once again to create an **Azure Blob Storage** linked service connection.
+
+    ![](./images/module02/Lab1-Image34.png)
+
+9.	On the **New Linked Service (Azure Blob Storage)** blade, enter the following details:
+    <br>- **Name**: synapsedatalake
+    <br>- **Connect via integration runtime**: AutoResolveIntegrationRuntime
+    <br>- **Authentication method**: Account key
+    <br>- **Account selection method**: From Azure subscription
+    <br>- **Azure subscription**: *[your subscription]*
+    <br>- **Storage account name**: synapsedatalake*suffix*
+10.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
+
+    ![](./images/module02/Lab1-Image35.png)
+
+11.	You should now see 3 linked services connections that will be used as source, destination and staging.
+
+    ![](./images/module02/Lab1-Image36.png)
+
+### Create Source and Destination Data Sets
+
+**IMPORTANT**|
+-------------|
+**Execute these steps on your host computer**|
+
+1.	Open the **Azure Data Factory** portal and click the **Author *(pencil icon)*** option on the left-hand side panel. Under **Factory Resources** tab, click the ellipsis **(…)** next to **Datasets** and then click **New Dataset** to create a new dataset.
+
+    ![](./images/module02/Lab1-Image37.png)
+
+2.	Type "Azure SQL Database" in the search box and select **Azure SQL Database**. Click **Finish**.
+
+    ![](./images/module02/Lab1-Image38.png)
+
+3.	On the **New Data Set** tab, enter the following details:
+    <br>- **Name**: NYCDataSets_MotorVehicleCollisions
+    <br>- **Linked Service**: OperationalSQL_NYCDataSets
+    <br>- **Table**: [NYC].[NYPD_MotorVehicleCollisions]
+
+    Alternatively you can copy and paste the dataset JSON definition below:
+
+    ```json
+    {
+        "name": "NYCDataSets_MotorVehicleCollisions",
+        "properties": {
+            "linkedServiceName": {
+                "referenceName": "OperationalSQL_NYCDataSets",
+                "type": "LinkedServiceReference"
+            },
+            "folder": {
+                "name": "Lab1"
+            },
+            "annotations": [],
+            "type": "AzureSqlTable",
+            "schema": [],
+            "typeProperties": {
+                "schema": "NYC",
+                "table": "NYPD_MotorVehicleCollisions"
+            }
+        }
+    }
+    ```
+
+4.	Leave remaining fields with default values and click **Continue**.
 
-4. Open Azure Storage Explorer, click on the Toggle Explorer icon, expand the Azure Subscription to find your Azure Storage Account. Right-click on Blob Containers and select **Create Blob Container**. Name the container `raw`.
+    ![](./images/module02/Lab1-Image39.png)
+
+5.	Repeat the process to create a new **Azure Synapse Analytics** data set.
 
-    ![Create Blob Container](../images/module02/02.12-explorer-container.png)
+    ![](./images/module02/Lab1-Image40.png)
 
-5. With the container name selected, click on the **Upload** button and select **Upload Folder...**.
+6.	On the **New Data Set** tab, enter the following details:
+    <br>- **Name**: SynapseDW_MotorVehicleCollisions
+    <br>- **Linked Service**: SynapseSQL_SynapseDW
+    <br>- **Table**: [NYC].[NYPD_MotorVehicleCollisions]
 
-    ![Upload Folder](../images/module02/02.13-explorer-upload.png)
+    Alternatively you can copy and paste the dataset JSON definition below:
 
-6. Click on the **ellipsis** to select a folder.
+    ```json
+    {
+        "name": "SynapseDW_MotorVehicleCollisions",
+        "properties": {
+            "linkedServiceName": {
+                "referenceName": "SynapseSQL_SynapseDW",
+                "type": "LinkedServiceReference"
+            },
+            "folder": {
+                "name": "Lab1"
+            },
+            "annotations": [],
+            "type": "AzureSqlDWTable",
+            "schema": [],
+            "typeProperties": {
+                "schema": "NYC",
+                "table": "NYPD_MotorVehicleCollisions"
+            }
+        }
+    }
+    ```
 
-    ![Browse](../images/module02/02.14-explorer-browse.png)
+7.	Leave remaining fields with default values and click **Continue**.
 
-7. Navigate to the extracted **BingCoronavirusQuerySet** folder (e.g. Downloads\BingCoronavirusQuerySet) and click **Select Folder**.
+    ![](./images/module02/Lab1-Image41.png)
 
-    ![Folder](../images/module02/02.15-explorer-folder.png)
+8. Under **Factory Resources** tab, click the ellipsis **(…)** next to **Datasets** and then click **New folder** to create a new Folder. Name it **Lab1**.
 
-8. Click **Upload**.
+9. Drag the two datasets created into the **Lab1** folder you just created.
 
-    ![Upload](../images/module02/02.16-explorer-data.png)
+    ![](./images/module02/Lab1-Image53.png)
 
-9. Monitor the **Activities** until the transfer is complete.
+10.	Publish your dataset changes by clicking the **Publish All** button on the top of the screen.
 
-    ![Transfer Complete](../images/module02/02.17-explorer-transfer.png)
+    ![](./images/module02/Lab1-Image42.png)
 
+### Create and Execute Pipeline
 
-## 3. Create a Collection
+**IMPORTANT**|
+-------------|
+**Execute these steps on your host computer**|
 
-> :bulb: **Did you know?**
->
-> [Collections](https://docs.microsoft.com/azure/purview/how-to-create-and-manage-collections) in Microsoft Purview can be used to organize data sources, scans, and assets in a hierarchical model based on how your organization plans to use Microsoft Purview. The collection hierarchy also forms the security boundary for your metadata to ensure users don't have access to data they don't need (e.g. sensitive metadata). 
->
-> For more information, check out [Collection Architectures and Best Practices](https://docs.microsoft.com/azure/purview/concept-best-practices-collections).
+1.	Open the **Azure Data Factory** portal and click the **Author *(pencil icon)*** option on the left-hand side panel. Under **Factory Resources** tab, click the ellipsis **(…)** next to **Pipelines** and then click **New Pipeline** to create a new pipeline.
+2.	On the **New Pipeline** tab, enter the following details:
+    <br>- **General > Name**: Lab1 - Copy Collision Data
+3.	Leave remaining fields with default values.
 
-1. Open the **Microsoft Purview Governance Portal**, navigate to **Data Map** > **Collections**, and click  **Add a collection**.
+    ![](./images/module02/Lab1-Image43.png)
 
-    ![New Collection](../images/module02/02.18-sources-collection.png)
+4.	From the **Activities** panel, type “Copy Data” in the search box. Drag the **Copy Data** activity on to the design surface.
+5.	Select the **Copy Data** activity and enter the following details:
+    <br>- **General > Name**: CopyMotorVehicleCollisions
+    <br>- **Source > Source dataset**: NYCDataSets_MotorVehicleCollisions
+    <br>- **Sink > Sink dataset**: SynapseDW_MotorVehicleCollisions
+    <br>- **Sink > Allow PolyBase**: Checked
+    <br>- **Settings > Enable staging**: Checked
+    <br>- **Settings > Staging account linked service**: synapsedatalake
+    <br>- **Settings > Storage Path**: polybase
+6.	Leave remaining fields with default values.
 
-2. Provide the collection a **Name** (e.g. `Contoso`) and click **Create**.
+    ![](./images/module02/Lab1-Image44.png)
+    ![](./images/module02/Lab1-Image45.png)
+    ![](./images/module02/Lab1-Image46.png)
 
-    ![New Collection](../images/module02/02.76-collection-create.png)
+7.	Publish your pipeline changes by clicking the **Publish all** button.
 
+    ![](./images/module02/Lab1-Image47.png)
 
-## 4. Register a Source (ADLS Gen2)
+8.	To execute the pipeline, click on **Add trigger** menu and then **Trigger Now**.
+9.	On the **Pipeline Run** blade, click **Finish**.
 
-1. Open the **Microsoft Purview Governance Portal**, navigate to **Data Map** > **Sources**, and click on **Register**.
+    ![](./images/module02/Lab1-Image48.png)
 
-    ![Register](../images/module02/02.20-sources-register.png)
+10.	To monitor the execution of your pipeline, click on the **Monitor** menu on the left-hand side panel.
+11.	You should be able to see the Status of your pipeline execution on the right-hand side panel.
 
-2. Search for `Data Lake`, select **Azure Data Lake Storage Gen2**, and click **Continue**.
+    ![](./images/module02/Lab1-Image49updated.png)
 
-    ![Sources](../images/module02/02.21-sources-adls.png)
+## Visualize Data with Power BI
+In this section you are going to use Power BI to visualize data from Azure Synapse Analytics. The Power BI report will use an Import connection to query Azure Synapse Analytics and visualise Motor Vehicle Collision data from the table you loaded in the previous exercise.
 
-3. Select the **Azure subscription**, **Storage account name**, **Collection**, and click **Register**.
+**IMPORTANT**|
+-------------|
+**Execute these steps inside the ADPDesktop remote desktop connection**|
 
-    > :bulb: **Did you know?**
-    >
-    > At this point, we have simply registered a data source. Assets are not written to the catalog until after a scan has finished running.
+1.	On ADPDesktop, download the Power BI report from the link https://aka.ms/ADPLab1 and save it on the Desktop.
+2.	Open the file ADPLab1.pbit with Power BI Desktop. Optionally sign up for the Power BI tips and tricks email, or to dismiss this, click to sign in with an existing account, and then hit the escape key.
+3.	When prompted to enter the value of the **SynapseSQLEnpoint** parameter, type the full server name: synapsesql-*suffix*.database.windows.net
 
-    ![Source Properties](../images/module02/02.22-sources-properties.png)
+![](./images/module02/Lab1-Image50.png)
 
-<div align="right"><a href="#module-02a---register--scan-adls-gen2">↥ back to top</a></div>
+4.	Click Load, and then Run to acknowledge the Native Database Query message
+5.	When prompted, enter the **Database** credentials:
+    <br>- **User Name**: adpadmin
+    <br>- **Password**: P@ssw0rd123!
 
-## 5. Scan a Source with the Microsoft Purview Managed Identity
+![](./images/module02/Lab1-Image52.png)
 
-1. Open the **Microsoft Purview Governance Portal**, navigate to **Data Map** > **Sources**, and within the Azure Data Lake Storage Gen2 tile, click the **New Scan** button.
+6.	Once the data is finished loading, interact with the report by changing the CollisionDate slicer and by clicking on the other visualisations.
+7.	Save your work and close Power BI Desktop.
 
-    ![New Scan](../images/module02/02.23-scan-new.png)
-
-2. Click **Test connection** to ensure the Microsoft Purview managed identity has the appropriate level of access to read the Azure Data Lake Storage Gen2 account. If successful, click **Continue**.
-
-    ![Test Connection](../images/module02/02.24-scan-test.png)
-
-3. Expand the hierarchy to see which assets will be within the scans scope, and click **Continue**.
-
-    ![Scan Scope](../images/module02/02.25-scan-scope.png)
-
-4. Select the system default scan rule set and click **Continue**.
-
-    > :bulb: **Did you know?**
-    >
-    > [Scan Rule Sets](https://docs.microsoft.com/azure/purview/create-a-scan-rule-set) determine which **File Types** and **Classification Rules** are in scope. If you want to include a custom file type or custom classification rule as part of a scan, a custom scan rule set will need to be created.
-
-    ![Scan rule set](../images/module02/02.26-scan-ruleset.png)
-
-5. Select **Once** and click **Continue**.
-
-    ![Scan Trigger](../images/module02/02.27-scan-trigger.png)
-
-6. Click **Save and Run**.
-
-    ![Run Scan](../images/module02/02.28-scan-run.png)
-
-7. To monitor the progress of the scan run, click **View Details**.
-
-    ![View Details](../images/module02/02.29-sources-details.png)
-
-8. Click **Refresh** to periodically update the status of the scan. Note: It will take approximately 5 to 10 minutes to complete.
-
-    ![Monitor Scan](../images/module02/02.30-sources-refresh.png)
-
-<div align="right"><a href="#module-02a---register--scan-adls-gen2">↥ back to top</a></div>
-
-## 6. View Assets
-
-1. Navigate to the **Microsoft Purview Governance Portal** > **Data catalog**, and perform a wildcard search by typing the asterisk character (`*`) into the search box and hitting the Enter key to submit the query.
-
-    ![ALT](../images/module02/02.80-wildcard-search.png)
-
-2. You should be able to see a list of assets within the search results, which is a result of the scan.
-
-    ![ALT](../images/module02/02.72-search-wildcard.png)
-
-<div align="right"><a href="#module-02a---register--scan-adls-gen2">↥ back to top</a></div>
-
-## :mortar_board: Knowledge Check
-
-[https://aka.ms/purviewlab/q02](https://aka.ms/purviewlab/q02)
-
-1. What type of object can help organize data sources into logical groups?
-
-    A ) Buckets  
-    B ) Collections  
-    C ) Groups  
-
-2. At which point does Microsoft Purview begin to populate the data map with assets?
-
-    A ) After a Microsoft Purview account is created  
-    B ) After a Data Source has been registered  
-    C ) After a Data Source has been scanned
-
-3. Which of the following attributes is **not** automatically assigned to an asset as a result of the system-built scanning functionality?
-
-    A ) Technical Metadata (e.g. Fully Qualified Name, Path, Schema, etc)  
-    B ) Glossary Terms (e.g. column `Sales Tax` is tagged with the `Sales Tax` glossary term)  
-    C ) Classifications (e.g. column `ccnum` is tagged with the `Credit Card Number` classification)  
-
-<div align="right"><a href="#module-02a---register--scan-adls-gen2">↥ back to top</a></div>
-
-## :tada: Summary
-
-This module provided an overview of how to create a collection, register a source, and trigger a scan.
-
-[Continue >](../modules/module02b.md)
+    ![](./images/module02/Lab1-Image51.png)
