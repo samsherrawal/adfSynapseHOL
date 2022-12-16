@@ -16,14 +16,15 @@ Azure Synapse Analytics | [Implement a Data Warehouse with Azure Synapse Analyti
 Azure Data Lake Storage Gen2 | [Large Scale Data Processing with Azure Data Lake Storage Gen2](https://docs.microsoft.com/en-us/learn/paths/data-processing-with-azure-adls/) | [Azure Data Lake Storage Gen2 Technical Documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction)
 
 ## Lab Architecture
-![Lab Architecture](./images/module02/Lab1-Image01.png)
+
+[Lab Architecture](./images/module02/Lab1-Image01.png)
 
 Step     | Description
 -------- | -----
-![1](./images/module02/Black1.png) | Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
-![2](./images/module02/Black2.png) | Use Azure Data Lake Storage Gen2 as a staging area for Polybase
-![3](./images/module02/Black3.png) | Load data to an Azure Synapse Analytics table using Polybase
-![4](./images/module02/Black4.png) | Visualize data from Azure Synapse Analytics using Power BI
+1. | Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
+2. | Use Azure Data Lake Storage Gen2 as a staging area for Polybase
+3.| Load data to an Azure Synapse Analytics table using Polybase
+4. | Visualize data from Azure Synapse Analytics using Power BI
 
 **IMPORTANT**: Some of the Azure services provisioned require globally unique name and a “-suffix” has been added to their names to ensure this uniqueness. Please take note of the suffix generated as you will need it for the following resources in this lab:
 
