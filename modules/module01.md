@@ -1,6 +1,6 @@
 # Module 01 - Create a dedicated SQL pool in Azure Synapse Analytics Studio
 
-[< Previous Module](../modules/module00.md) - **[Home](../README.md)** - [Next Module >](../modules/module02.md)
+[< Previous Module](../modules/module00.md) - **[Home](../README.md)** - [Next Module >](../modules/module01a.md)
 
 ## :loudspeaker: Introduction
 
@@ -27,12 +27,12 @@ When planning your Microsoft dedicated SQL pool deployment using Azure Synapse, 
 
 
 
-## 1. Create a dedicated sql pool in Synapse Studio
+## Create a dedicated sql pool in Synapse Studio
 
 1. Sign in to the [Azure portal](https://portal.azure.com), navigate to the previously created Synapse workspace where the dedicated SQL pool will be created by typing the service name (or resource name directly) into the search bar.
 
 
-    ![NavigateSynapseWorkspace](../images/module01/01- 01-synapse-workspace.png) 
+    ![NavigateSynapseWorkspace](../images/module01/01-01-synapse-workspace.png) 
 
 
 2. From the list of workspaces, type the name (or part of the name) of the workspace to open. For this example, we'll use a workspace named adflab-(*i*randomid)-synapse. Click 'open' on the synapse studio box which will take you to the Synapse Studio.

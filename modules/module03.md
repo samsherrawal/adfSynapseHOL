@@ -32,9 +32,9 @@ Step     | Description
 
 Name	                     |Type
 -----------------------------|--------------------
-SynapseDataFactory-*suffix*	     |Data Factory (V2)
-synapsedatalake*suffix*	         |Storage Account
-synapsesql-*suffix* |SQL server
+adflab-*suffix*-adf	     |Data Factory (V2)
+adflab*suffix*synapse	         |Storage Account
+adflab-*suffix*-sqlsvr |SQL server
 
 ## Create Azure Synapse Analytics database objects
 In this section you will connect to Azure Synapse Analytics to create the data warehouse objects used to host and process data.
@@ -52,10 +52,10 @@ In this section you will connect to Azure Synapse Analytics to create the data w
     ![](../images/module03/Lab2-Image03.png)
 
 4.	On the Connection Details panel, enter the following connection details:
-    <br>- **Server**: synapsesql-*suffix*.database.windows.net
+    <br>- **Server**: adflab-*suffix*-sqlsvr.database.windows.net
     <br>- **Authentication Type**: SQL Login
-    <br>- **User Name**: adpadmin
-    <br>- **Password**: P@ssw0rd123!
+    <br>- **User Name**: sqladmin
+    <br>- **Password**: sqlPassword!
     <br>- **Database**: SynapseDW
 5.	Click **Connect**.
 
@@ -884,7 +884,7 @@ In this section you create a data factory pipeline to copy and transform data in
     ![](../images/module03/Lab2-Image36.png)
     ![](../images/module03/Lab2-Image37.png)
 
-## Visualize Data with Power BI
+## Visualize Data with Power BI (OPTIONAL)
 In this section you are going to use Power BI to visualize data from Azure Synapse Analytics. The Power BI report will use an Import connection to query Azure Synapse Analytics and visualise Motor Vehicle Collision data from the table you loaded in the previous exercise.
 
 **IMPORTANT**|
@@ -893,14 +893,14 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 
 1.	On ADPDesktop, download the Power BI report from the link https://aka.ms/ADPLab2 and save it in the Desktop.
 2.	Open the file ADPLab2.pbit with Power BI Desktop.
-3.	When prompted to enter the value of the **SynapseSQLEndpoint** parameter, type the full server name: **synapsesql-*suffix*.database.windows.net**
+3.	When prompted to enter the value of the **SynapseSQLEndpoint** parameter, type the full server name: **adflab-*suffix*-sqlsvr.database.windows.net**
 4.	Click **Load**.
 
     ![](../images/module03/Lab2-Image38.png)
 
 5.	When prompted to enter credentials, select **Database** from the left-hand side panel and enter the following details:
-    <br>- **User name**: adpadmin
-    <br>- **Password**: P@ssw0rd123!
+    <br>- **User name**: sqladmin
+    <br>- **Password**: sqlPassword!
 6.	Leave remaining fields with their default values.
 7.	Click **Connect**.
 

@@ -23,24 +23,24 @@ Azure Data Lake Storage Gen2 | [Large Scale Data Processing with Azure Data Lake
 
 Step     | Description
 -------- | -----
-'1.       |Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
-'2.       |Use Azure Data Lake Storage Gen2 as a staging area for Polybase
-'3.       |Load data to an Azure Synapse Analytics table using Polybase
-'4.       |Visualize data from Azure Synapse Analytics using Power BI
+(a)       |Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
+(b)       |Use Azure Data Lake Storage Gen2 as a staging area for Polybase
+(c)       |Load data to an Azure Synapse Analytics table using Polybase
+(d)       |Visualize data from Azure Synapse Analytics using Power BI
 
 **IMPORTANT**: Some of the Azure services provisioned require globally unique name and a “-suffix” has been added to their names to ensure this uniqueness. Please take note of the suffix generated as you will need it for the following resources in this lab:
 
-Name	                     |Type
------------------------------|--------------------
-SynapseDataFactory-*suffix*	     |Data Factory (V2)
-synapsedatalake*suffix*	         |Data Lake Storage Gen2
-synapsesql-*suffix* |SQL server
-operationalsql-*suffix* |SQL server
+Name	                        |Type
+--------------------------------|--------------------
+adflab-*suffix*-adf 	        |Data Factory (V2)
+adflab-*suffix*-adls	        |Data Lake Storage Gen2
+adflab-*suffix*-sqlsvr          |SQL server
+adflab-*suffix*-sqldb           |SQL database
 
 ## Connect to ADPDesktop
 In this section you are going to establish a Remote Desktop Connection to ADPDesktop virtual machine.
 
-**IMPORTANT**: If you are executing the lab in a Spektra CloudLabs environment, you will be automatically connected to the ADPDesktop VM and there is no need to execute the steps below. You can skip to the next section **Install required software onto ADPDesktop**.
+**IMPORTANT**: If you are executing the lab in your local environment, you can skip to the next section **Install required software onto ADPDesktop**. Otherwise, you will be connecting to the ADPDesktop VM (provisioned on Lab Environment setup lab) by executing the steps below.
 
 **IMPORTANT**|
 -------------|
@@ -50,11 +50,11 @@ In this section you are going to establish a Remote Desktop Connection to ADPDes
 
 2.	On the ADPDesktop blade, from the Overview menu, click the Connect button.
 
-    ![](./images/module02/Lab1-Image02.png)
+    ![](../images/module02/Lab1-Image02.png)
 
 3.	On the **Connect to virtual machine** blade, click **Download RDP File**. This will download a .rdp file that you can use to establish a Remote Desktop Connection with the virtual machine.
 
-    ![](./images/module02/Lab1-Image03.png)
+    ![](../images/module02/Lab1-Image03.png)
 
 4.	Once the RDP file is downloaded, click on it to establish an RDP connection with ADPDesktop
 
@@ -101,11 +101,11 @@ In this section you will connect to Azure Synapse Analytics to create the databa
     ![](../images/module02/Lab1-Image11.png)
 
 2.	On the **Connection Details** panel, enter the following connection details:
-    <br> - **Server**: synapsesql-*suffix*.database.windows.net
+    <br> - **Server**: adflab-*suffix*-synapse.sql.azuresynapse.net
     <br>- **Authentication Type**: SQL Login
-    <br>- **User Name**: ADPAdmin
-    <br>- **Password**: P@ssw0rd123!
-    <br>- **Database**: SynapseDW
+    <br>- **User Name**: sqldmin
+    <br>- **Password**: sqlPassword!
+    <br>- **Database**: mySampleDataWarehouse
 
 3.	Click **Connect**.
 
@@ -197,8 +197,8 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Server Name**: operationalsql-*suffix*
     <br>- **Database Name**: NYCDataSets
     <br>- **Authentication** Type: SQL Authentication 
-    <br>- **User** Name: ADPAdmin
-    <br>- **Password**: P@ssw0rd123!
+    <br>- **User** Name: sqladmin
+    <br>- **Password**: sqlPassword!
 
 4.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
@@ -216,8 +216,8 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Server Name**: synapsesql-*suffix*
     <br>- **Database Name**: SynapseDW
     <br>- **Authentication** Type: SQL Authentication 
-    <br>- **User** Name: ADPAdmin
-    <br>- **Password**: P@ssw0rd123!
+    <br>- **User** Name: sqladmin
+    <br>- **Password**: sqlPassword!
 7.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
     ![](./images/module02/Lab1-Image33.png)
@@ -232,7 +232,7 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Authentication method**: Account key
     <br>- **Account selection method**: From Azure subscription
     <br>- **Azure subscription**: *[your subscription]*
-    <br>- **Storage account name**: synapsedatalake*suffix*
+    <br>- **Storage account name**: adflab*suffix*synapse
 10.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
     ![](../images/module02/Lab1-Image35.png)
@@ -377,7 +377,7 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
 
     ![](../images/module02/Lab1-Image49updated.png)
 
-## Visualize Data with Power BI
+## Visualize Data with Power BI (OPTIONAL)
 In this section you are going to use Power BI to visualize data from Azure Synapse Analytics. The Power BI report will use an Import connection to query Azure Synapse Analytics and visualise Motor Vehicle Collision data from the table you loaded in the previous exercise.
 
 **IMPORTANT**|
@@ -388,14 +388,14 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 2.	Open the file ADPLab1.pbit with Power BI Desktop. Optionally sign up for the Power BI tips and tricks email, or to dismiss this, click to sign in with an existing account, and then hit the escape key.
 3.	When prompted to enter the value of the **SynapseSQLEnpoint** parameter, type the full server name: synapsesql-*suffix*.database.windows.net
 
-![](./images/module02/Lab1-Image50.png)
+![](../images/module02/Lab1-Image50.png)
 
 4.	Click Load, and then Run to acknowledge the Native Database Query message
 5.	When prompted, enter the **Database** credentials:
-    <br>- **User Name**: adpadmin
-    <br>- **Password**: P@ssw0rd123!
+    <br>- **User Name**: sqladmin
+    <br>- **Password**: sqlPassword!
 
-![](./images/module02/Lab1-Image52.png)
+![](../images/module02/Lab1-Image52.png)
 
 6.	Once the data is finished loading, interact with the report by changing the CollisionDate slicer and by clicking on the other visualisations.
 7.	Save your work and close Power BI Desktop.
