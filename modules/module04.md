@@ -19,9 +19,11 @@ and interact with on-prem environment. For the purpose of simulation, we are goi
 
  1. To create your own self-hosted integration runtime in your host computer you can download it by [clicking here](https://learn.microsoft.com/en-us/azure/data-factory/create-self-hosted-integration-runtime?tabs=data-factory#install-and-register-self-hosted-ir-from-download-center)
 
- 2. Handshake of self-hosted integration runtime in your machine is achieved by copying the key provided during the 'Self-Hosted' Integration runtime setup from Azure Data Factory and then adding it to the Authentication Key field during registration of Self-Hosted IR, please follow these instructions to [setup Self-Hosted Integration Runtime](https://learn.microsoft.com/en-us/azure/data-factory/create-self-hosted-integration-runtime?tabs=data-factory)
+ 2. Handshake of self-hosted integration runtime in your machine is achieved by copying the key provided during the 'Self-Hosted' Integration runtime setup from Azure Data Factory and then adding it to the Authentication Key field during registration of Self-Hosted IR, please follow the instructions provided in the link above.
 
- OPTIONAL:
+
+## OPTIONAL:
+
 ## :test_tube: Lab Environment Setup for provisioning an Azure VM with Self-host integration runtime 
 
 1. Right-click or `Ctrl + click` the button below to open the Azure Portal in a new window.
