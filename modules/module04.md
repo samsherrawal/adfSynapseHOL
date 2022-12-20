@@ -66,17 +66,19 @@ On this lab section we will perform the below three tasks:
 |:--------------- |:------------------------------------- |:----------- |
 | onpremSQLServer | AdventureWorks.Sales.SalesOrderDetail | on-prem |
 | AzureBlobStorage| File path - output/Directory/orderdetail.txt | azure cloud |
-| FileServer      | onprem-file (demodata.csv)            | on-prem |
+| FileServer      | onprem-file (demodata.csv)            | on-prem |  
 
-a) Read data from on-prem SQL table and push to azure blob storage
+
+**(a)** Read data from on-prem SQL table and push to azure blob storage  
+
 Assumption: The AdventureWorks database is installed in your local machine. We will be moving data from one of the tables to the Azure blob store.
 
-b) Copy files from on-prem to azure blob storage
+**(b)** Copy files from on-prem to azure blob storage
 For this lab, we will copy demodata.csv located in your local machine to the Azure Blob Storage using ADF.
 
-c) running stored procedure on the onp-rem sql using self hosted IR as alternate way of performing complex ETL
+**(c)** running stored procedure on the onp-rem sql using self hosted IR as alternate way of performing complex ETL
 
-On your hostmachine, run the below script in SQL Server Management Studio(SSMS) after ensuring you have downloaded the demodata.csv file from the data folder in this github repository. Use any test database such as adventureworks or contoso.
+On your hostmachine, run the below script in *SQL Server Management Studio(SSMS)* after ensuring you have downloaded the demodata.csv file from the data folder in this github repository. Use any test database such as adventureworks or contoso.
 
 ```sql
 USE [Testing] --desired database
