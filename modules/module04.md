@@ -62,10 +62,50 @@ Self hosted runtime integration is used to copy data from on-prem environment to
 
 On this lab section we will perform the below three tasks: 
 
+| Linked Service  | Dataset | Location |
+| --- | --- | --- | --- | --- |
+| onpremSQLServer | AdventureWorks.Sales.SalesOrderDetail | on-prem |
+| AzureBlobStorage | File path - output/Directory/orderdetail.txt | azure cloud |
+| FileServer | onprem-file (demodata.csv) | on-prem |
+
 a) Read data from on-prem SQL table and push to azure blob storage
+Assumption: The AdventureWorks database is installed in your local machine. We will be moving data from one of the tables to the Azure blob store.
 
 b) Copy files from on-prem to azure blob storage
+For this lab, we will copy demodata.csv located in your local machine to the Azure Blob Storage using ADF.
 
 c) running stored procedure on the onp-rem sql using self hosted IR as alternate way of performing complex ETL
+
+On your hostmachine, run the below script in SQL Server Management Studio(SSMS) after ensuring you have downloaded the demodata.csv file from the data folder in this github repository. Use any test database such as adventureworks or contoso.
+
+```sql
+USE [Testing] --desired database
+
+--create schema
+CREATE TABLE employeeData(
+	first_name [nvarchar](55) NULL,
+	last_name [nvarchar](55) NULL,
+	email [nvarchar](100) NULL,
+	phone_number [nvarchar](55) NULL,
+	hire_date date NULL,
+	salary float
+) 
+GO
+
+-- create procedure to run from ADF
+create procedure bulkInsertFromCSV
+  as
+  BULK INSERT employeedata
+FROM 'F:\browserDownloads\adflab-main\data\demodata.csv' --provide the correct path from the github downloaded file in local machine
+WITH (FIRSTROW = 2,
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR='\n',
+    BATCHSIZE=250000,
+    MAXERRORS=2);
+go
+```
+
+
+
 
 [Continue >](../modules/module05.md)
