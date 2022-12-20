@@ -46,9 +46,9 @@ In order to follow along with the Microsoft ADF lab exercises, you need to provi
 
 
 
-## Creating a separate host machine to mimic On-Prem environment 
+## Creating a separate host machine to mimic On-Prem environment (On a separate resource group!)
 
-Note: The below lab is optional and you can proceed with the instruction only if you want to create a separate host machine that will simulate your on-prem environment when following all the lab modules. You could use your local machine as well to do these labs. However, please ensure that these resources are deleted once you have completed the labs to avoid unexpected usage charges.
+Note: The below lab is optional and you can proceed with the instructions only if you want to create a separate host machine that will simulate your on-prem environment when following all the lab modules. You could use your local machine as well to do these labs. However, please ensure that these resources are deleted once you have completed the labs to avoid unexpected usage charges.
 
 1. Right-click or `Ctrl + click` the button below to open the Azure Portal in a new window.
 

@@ -59,8 +59,10 @@ Self hosted runtime integration is used to copy data from on-prem environment to
 
 On this lab section we will perform the below three tasks: 
 
-a) Read data from on-prem SQL table and push to azure blob storage - done 
-b) Copy files from on-prem to azure blob storage - done
-c) running stored procedure on the onprem sql using self hosted IR as alternate way of performing complex ETL
+a) Read data from on-prem SQL table and push to azure blob storage
+
+b) Copy files from on-prem to azure blob storage
+
+c) running stored procedure on the onp-rem sql using self hosted IR as alternate way of performing complex ETL
 
 [Continue >](../modules/module05.md)

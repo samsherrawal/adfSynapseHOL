@@ -53,6 +53,6 @@ You will be creating a spark pool in this lab module, for reference you can also
 
 ## :tada: Summary
 
-This module provided an overview of how to create Apache Apark pool in Azure Synapse Analytics workspace. You also reviewed how to create a notebook and attach it to the Spark pool.
+This module provided an overview of how to create Apache Spark pool in Azure Synapse Analytics workspace. You also reviewed how to create a notebook and attach it to the Spark pool.
 
 [Continue >](../modules/module00.md)
