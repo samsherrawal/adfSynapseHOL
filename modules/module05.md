@@ -35,18 +35,18 @@ You will be creating a spark pool in this lab module, for reference you can also
 
 
     
-4. Once in the Management Hub, navigate to the SQL pools section to see the current list of SQL pools that are available in the workspace. Select + New command and the new SQL pool create wizard will appear.
+4. Once in the Management Hub, navigate to the 'Apache Spark pools' section to see the current list of spark pools that are available in the workspace. Select + New command and the new Apache Spark pool create wizard will appear.
 
 
     ![Create Apache Spark pool](../images/module05/05-04-create-sparkpool.png)
 
 
-5. Enter 'mySparkPool' for the spark pool name and accept all the defaults in the Basics tab; click on 'Review and Create':
+5. Enter 'mySparkPool' for the spark pool name and accept all the defaults in the Basics tab; click on 'Review and Create'. After the successful validation check, click on 'Create' button.
 
  ![spark pool created](../images/module05/05-04a-click-create.png)   
 
 
-6. To create a spark notebook, click on 'Develop' in the left most pane, click on '+' and select 'Notebook'. Select the spark pool just created(mySparkPool) on the 'Attach to' drop down  menu as shown in the image below:
+6. Once the Spark Pool is proisioned, you will now create a spark notebook. Click on 'Develop' in the left most pane, click on '+' and select 'Notebook'. Select the spark pool just created(mySparkPool) on the 'Attach to' drop down  menu as shown in the image below:
 
  ![spark notebook](../images/module05/05-05-spark-notebook.png)   
 

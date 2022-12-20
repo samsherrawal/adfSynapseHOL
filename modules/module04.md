@@ -1,4 +1,4 @@
-# Module 04 - Module04: Create self-hosted integration runtime within ADF
+# Module 04: Create self-hosted integration runtime within ADF
 
 [< Previous Module](../modules/module03.md) - **[Home](../README.md)** - [Next Module >](../modules/module05.md)
 
@@ -53,5 +53,14 @@ When you deploy this Azure Resource Template, you will create a logical selfhost
 * Network Security Group
 * This template can help you create self-hosted IR and make it workable in azure VMs. The VM must join in an existing VNET.
 
+## Using the Self Hosted Runtime Integration 
+
+Self hosted runtime integration is used to copy data from on-prem environment to azure cloud. You could use your local machine or the host computer(ADPDesktop) for these labs.
+
+On this lab section we will perform the below three tasks: 
+
+a) Read data from on-prem SQL table and push to azure blob storage - done 
+b) Copy files from on-prem to azure blob storage - done
+c) running stored procedure on the onprem sql using self hosted IR as alternate way of performing complex ETL
 
 [Continue >](../modules/module05.md)
