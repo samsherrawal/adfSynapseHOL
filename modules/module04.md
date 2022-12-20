@@ -48,46 +48,13 @@ Use the following steps to create a self-hosted IR using the Azure Data Factory
 
 	(c) On the Register Integration Runtime (Self-hosted) page, paste the key you saved earlier, and select Register.
 
-        ![register IR](../images/module04/04-06-registerIR.PNG)
+    ![RegisterIR](../images/module04/04-06-registerIR.PNG)
 
     (d) On the New Integration Runtime (Self-hosted) Node page, select Finish.
 
-After the self-hosted integration runtime is registered successfully, you see the following window:
+    After the self-hosted integration runtime is registered successfully, you see the following window:
 
-    ![successful registration](../images/module04/04-07-successful-registration.PNG)
-
-
-
-## OPTIONAL
-
-## :test_tube: Lab Environment Setup for provisioning an Azure VM with Self-hosted integration runtime 
-
-1. Right-click or `Ctrl + click` the button below to open the Azure Portal in a new window.
-
-    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsamsherrawal%2FadfSynapseHOL%2Fmain%2Ftemplate%2FselfhostIRdeploy.json)
-
-   
- 
-
-2. Beneath the **Resource group** field, click **Create new** and provide the existing resource name (e.g. `adflab-rg`), select a [valid location](https://azure.microsoft.com/global-infrastructure/services/?products=ADF&regions=all) (e.g. `Central US`), and then click **Review + create**.
-
-    ![Deploy Template](../images/module04/04-01-selfhostedIR.png)
-
-3. Once the validation has passed, click **Create**.
-
-    ![Create Resources](../images/module04/04-02-review-create.png)
-
-4. The deployment should take approximately 3 minutes to complete. Once you see the message **Your deployment is complete**, click **Go to resource group**.
-
-
-When you deploy this Azure Resource Template, you will create a logical selfhost IR in your data factory and the following resources
-
-* Azure Virtual Machine
-* Azure Storage (for VM system image and boot diagnostic)
-* Public IP Address
-* Network Interface
-* Network Security Group
-* This template can help you create self-hosted IR and make it workable in azure VMs. The VM must join in an existing VNET.
+    ![Successful registration](../images/module04/04-07-successful-registration.PNG)
 
 ## Using the Self Hosted Runtime Integration 
 
