@@ -62,11 +62,11 @@ Self hosted runtime integration is used to copy data from on-prem environment to
 
 On this lab section we will perform the below three tasks: 
 
-| Linked Service  | Dataset | Location |
-| --- | --- | --- | --- | --- |
+| Linked Service  | Dataset                               | Location |
+|:--------------- |:------------------------------------- |:----------- |
 | onpremSQLServer | AdventureWorks.Sales.SalesOrderDetail | on-prem |
-| AzureBlobStorage | File path - output/Directory/orderdetail.txt | azure cloud |
-| FileServer | onprem-file (demodata.csv) | on-prem |
+| AzureBlobStorage| File path - output/Directory/orderdetail.txt | azure cloud |
+| FileServer      | onprem-file (demodata.csv)            | on-prem |
 
 a) Read data from on-prem SQL table and push to azure blob storage
 Assumption: The AdventureWorks database is installed in your local machine. We will be moving data from one of the tables to the Azure blob store.
