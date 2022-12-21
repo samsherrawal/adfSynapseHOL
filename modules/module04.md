@@ -73,12 +73,45 @@ On this lab section we will perform the below three tasks:
 
 Assumption: The AdventureWorks database is installed in your local machine. We will be moving data from one of the tables to the Azure blob store.
 
+1. On the Azure Data Factory portal, click on the Author tab on the left pane - click on the three dots next to the pipeline menu and click 'New pipeline'. Give the name  'SQLtable_to_blob' of the pipeline
+
+![CreateNewADFPipeline](../images/module04/04-08-new-pipeline.png)
+
+2. In the **Activities toolbox**, expand **Move & Transform**. Drag the **Copy Data** activity from the Activities toolbox to the pipeline designer surface. You can also search for activities in the Ativities toolbox. Specify **SQLtable_to_blob** for name
+
+![CreateNewActivity](../images/module04/04-09-adf-activity.png)
+
+3.  Go to the Source tab. Select + New to create a source dataset.
+
+4. In the New Dataset dialog box, select SQL Server to copy data from desired/selected table, and then select Continue.
+
+![CreateSQLdataset](../images/module04/04-10-sql-dataset.png)
+
+5. Provide 'onpremSQLLinkedServer' for the name of the linked service to be created and on the drop down Linked Service - click new. You will now be creating a new linked service using the newly created self-hosted integration runtime to link up to on-prem SQL server. Provide the host machine details where your self-hosted runtime integration agent is installed and click on 'Test connection' - if all the parameters are correct, you  should see 'Connection successful' message as shown in the image below. 
+
+![SuccessfulConnection](../images/module04/04-11-successful-connection.png)
+
+6. Next you will click on +New to provide the source dataset - choose onpremSQLLinkedServer as the Linked service and for the table name choose 'Sales.SalesOrderDetail' from the adventureworks database. (You can choose any other available database and table if you like!). Choose 'From connection/store' for Import schema. Then click 'OK'.
+
+7. Now go to the Sink tab, and select + New to create a sink dataset. In the New Dataset dialog box, choose the 'Azure Blob Storage', and then select Continue.
+
+8. In the New Linked Service (Azure Blob Storage) dialog box, enter 'AzureStorageLinkedService' as name, select your storage account from the Storage account name list. Test connection, select Create to deploy the linked service.
+
+9. After the linked service is created, it’s navigated back to the Set properties page. Next to File path, select Browse. Navigate to the adflab-*prefix*-storage/output folder(created previously), leave the file field empty for the destination file, and then select OK.
+
+![TargetFile](../images/module04/04-12-target-file.png)
+
+10. Go back to the pipeline now and click 'Debug' to quickly run the pipeline. You should see the new flat file created on the blob storage corresponding to the on-prem SQL table. 
+
+
 **(b)** Copy files from on-prem to azure blob storage
-For this lab, we will copy demodata.csv located in your local machine to the Azure Blob Storage using ADF.
+For this lab, we will copy demodata.csv located in your local machine(downloaded from github repo) to the Azure Blob Storage using ADF.
 
-**(c)** running stored procedure on the onp-rem sql using self hosted IR as alternate way of performing complex ETL
+Use the process described above to create source (File System) and sink (Azure Blob Storage) using the self-hosted IR, and run the pipeline clicking on the 'Debug'. After successful completion of the pipeline run, you should see the new copied file in Azure Blob Storage. 
 
-On your hostmachine, run the below script in *SQL Server Management Studio(SSMS)* after ensuring you have downloaded the demodata.csv file from the data folder in this github repository. Use any test database such as adventureworks or contoso.
+**(c)** running stored procedure on the on-prem sql using self hosted IR as alternate way of performing complex ETL
+
+1. On your hostmachine, run the below script in *SQL Server Management Studio(SSMS)* after ensuring you have downloaded the demodata.csv file from the data folder in this github repository. Use any test database such as adventureworks or contoso.
 
 ```sql
 USE [Testing] --desired database
@@ -106,7 +139,23 @@ WITH (FIRSTROW = 2,
     MAXERRORS=2);
 go
 ```
+2. Create a new pipeline 'Run_Stored_Procedure' and drag **Stored Procedure** activity into the canvas.
 
+3. On **Settings** tab, click on drop-down Linked service to select onpremSQLLinkedServer (previously created). You can verify this linked service to be working by clicking on the 'Test Connection. 
+
+4. On the Stored procedure name, click on the drop-down menu to select 'bulkInsertFromCSV' procedure from the list of procedures.
+
+![StoredProcedure](../modules/module04.md/04-13-stored-procedure.png)
+
+5. Click 'Trigger now' under Add trigger option on top of the authoring canvas. Then click 'OK' on the parameters dialog box. 
+
+6. Go to the **Monitor** tab on the left pane in data factory portal to see the activity runs of your pipeline. Verify that the executed stored procedure within the on-prem SQL Server environment to copy csv data into the empty table created above using Azure Data Factory is succeeded. 
+
+
+
+## :tada: Summary
+
+This module provided an overview of how to interact with Azure Data Factory and Self-hosted Integration runtime to migrate a lot of your on-prem data assets to Azure Blob Storage or other clouds with little to no codes involved. You also reviewed how to execute SQL procedure directly from Azure Data Factory.
 
 
 
