@@ -423,6 +423,18 @@
             }
         },
         {
+        "type": "Microsoft.Synapse/workspaces/firewallRules",
+        "apiVersion": "2021-05-01",
+        "name": "[format('{0}/{1}', format('synapseworkspace{0}', variables('randomString')), 'allowAll')]",
+        "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255"
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Synapse/workspaces', format('synapseworkspace{0}', variables('randomString')))]"
+        ]
+        },
+        {
         "type": "Microsoft.Synapse/workspaces",
         "apiVersion": "2021-05-01",
         "name": "[format('synapseworkspace{0}', variables('randomString'))]",
