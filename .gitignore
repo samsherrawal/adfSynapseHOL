@@ -1,2 +1,4 @@
 .DS_Store
 settings.json
+azuredeployV1.json
+hostmachinedeploy.json

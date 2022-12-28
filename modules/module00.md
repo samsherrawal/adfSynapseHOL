@@ -45,17 +45,6 @@ In order to follow along with the Microsoft ADF lab exercises, you need to provi
     ![Resource Group](../images/module00/00.04-deploy-resources.png)
 
 
-
-## Creating a separate host machine to mimic On-Prem environment (On a separate resource group!)
-
-Note: The below lab is optional and you can proceed with the instructions only if you want to create a separate host machine that will simulate your on-prem environment when following all the lab modules. You could use your local machine as well to do these labs. However, please ensure that these resources are deleted once you have completed the labs to avoid unexpected usage charges.
-
-1. Right-click or `Ctrl + click` the button below to open the Azure Portal in a new window.
-
-    [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsamsherrawal%2FadfSynapseHOL%2Fmain%2Ftemplate%2Fhostmachinedeploy.json)
-
-2. Beneath the **Resource group** field, click **Create new** and provide a unique name (e.g. `HostVM-rg`), select a [valid location](https://azure.microsoft.com/global-infrastructure/services/?products=ADF&regions=all) (e.g. `West Europe`), and then click **Review + create**. This step takes around 4 minutes and your Azure Virtual machine will be created.
-
 ## :tada: Summary
 
 By successfully deploying the Microsoft ADF lab template, you have the Azure resources needed to follow along with the learning exercises.
