@@ -2,3 +2,4 @@
 settings.json
 azuredeployV1.json
 hostmachinedeploy.json
+sql_vm.bicep

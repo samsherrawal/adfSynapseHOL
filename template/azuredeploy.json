@@ -582,18 +582,6 @@
                 "type": "SystemAssigned"
             },
             "properties": {}
-        },
-    	{
-            "type": "Microsoft.Logic/integrationAccounts",
-            "apiVersion": "2016-06-01",
-            "name": "[variables('ADPIntegrationAccountName')]",
-            "location": "[resourceGroup().location]",
-            "sku": {
-                "name": "Basic"
-            },
-            "properties": {
-                "state": "Enabled"
-            }
         }
     ]
 }

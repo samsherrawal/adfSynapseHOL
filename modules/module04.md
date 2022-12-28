@@ -17,7 +17,7 @@ and interact with on-prem environment. For the purpose of simulation, we are goi
 
 ## Creating and configuring a Self-hosted integration Runtime on Azure VMs
 
-Handshake of self-hosted integration runtime in your machine is achieved by copying the key provided during the 'Self-Hosted' Integration runtime setup from Azure Data Factory and then adding it to the Authentication Key field during registration of Self-Hosted IR in your local machine, please follow the instructions provided below.
+Handshake of self-hosted integration runtime in your machine is achieved by copying the key provided during the **'Self-Hosted'** Integration runtime setup from Azure Data Factory and then adding it to the Authentication Key field during registration of Self-Hosted IR in your local machine, please follow the instructions provided below.
 
 Use the following steps to create a self-hosted IR using the Azure Data Factory
 

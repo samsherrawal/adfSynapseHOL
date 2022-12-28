@@ -2,6 +2,7 @@
 
 [< Previous Module](../modules/module01a.md) - **[Home](../README.md)** - [Next Module >](../modules/module03.md)
 
+
 In this lab, the dataset you will use contains data about motor vehicle collisions that happened in New Your City from 2012 to 2019 stored in a relational database. You will configure the Azure environment to allow relational data to be transferred from an Azure SQL Database to an Azure Synapse Analytics data warehouse using Azure Data Factory also staging to Azure Data Lake storage. You will use Power BI to visualise collision data loaded from your Azure Synapse data warehouse.
 
 The estimated time to complete this lab is: **45 minutes**.
@@ -18,29 +19,28 @@ Azure Synapse Analytics | [Implement a Data Warehouse with Azure Synapse Analyti
 Azure Data Lake Storage Gen2 | [Large Scale Data Processing with Azure Data Lake Storage Gen2](https://docs.microsoft.com/en-us/learn/paths/data-processing-with-azure-adls/) | [Azure Data Lake Storage Gen2 Technical Documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction)
 
 ## Lab Architecture
-
 ![Lab Architecture](../images/module02/Lab1-Image01.png)
 
 Step     | Description
 -------- | -----
-(a)       |Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
-(b)       |Use Azure Data Lake Storage Gen2 as a staging area for Polybase
-(c)       |Load data to an Azure Synapse Analytics table using Polybase
-(d)       |Visualize data from Azure Synapse Analytics using Power BI
+![1](../images/module02/Black1.png) | Build an Azure Data Factory Pipeline to copy data from an Azure SQL Database table
+![2](../images/module02/Black2.png) | Use Azure Data Lake Storage Gen2 as a staging area for Polybase
+![3](../images/module02/Black3.png) | Load data to an Azure Synapse Analytics table using Polybase
+![4](../images/module02/Black4.png) | Visualize data from Azure Synapse Analytics using Power BI
 
 **IMPORTANT**: Some of the Azure services provisioned require globally unique name and a “-suffix” has been added to their names to ensure this uniqueness. Please take note of the suffix generated as you will need it for the following resources in this lab:
 
-Name	                        |Type
---------------------------------|--------------------
-adflab-*suffix*-adf 	        |Data Factory (V2)
-adflab-*suffix*-adls	        |Data Lake Storage Gen2
-adflab-*suffix*-sqlsvr          |SQL server
-adflab-*suffix*-sqldb           |SQL database
+Name	                     |Type
+-----------------------------|--------------------
+SynapseDataFactory-*suffix*	     |Data Factory (V2)
+synapsedatalake*suffix*	         |Data Lake Storage Gen2
+synapsesql-*suffix* |SQL server
+operationalsql-*suffix* |SQL server
 
 ## Connect to ADPDesktop
 In this section you are going to establish a Remote Desktop Connection to ADPDesktop virtual machine.
 
-**IMPORTANT**: If you are executing the lab in your local environment, you can skip to the next section **Install required software onto ADPDesktop**. Otherwise, you will be connecting to the ADPDesktop VM (provisioned on Lab Environment setup lab) by executing the steps below.
+**IMPORTANT**: If you are executing the lab in a Spektra CloudLabs environment, you will be automatically connected to the ADPDesktop VM and there is no need to execute the steps below. You can skip to the next section **Install required software onto ADPDesktop**.
 
 **IMPORTANT**|
 -------------|
@@ -81,11 +81,11 @@ In this section you are going to install Azure Data Studio and Power BI Desktop 
     <br>
     <br> **Azure Data Studio (User Installer)**
     <br>https://docs.microsoft.com/en-us/sql/azure-data-studio/download
-    <br>![](./images/module02/Lab1-Image05.png)
+    <br>![](../images/module02/Lab1-Image05.png)
     <br>
     <br>**Power BI Desktop (64-bit)**
     <br>https://aka.ms/pbiSingleInstaller
-    <br>![](./images/module02/Lab1-Image06.png)
+    <br>![](../images/module02/Lab1-Image06.png)
 
 ## Create Azure Synapse Analytics data warehouse objects
 In this section you will connect to Azure Synapse Analytics to create the database objects used to host and process data.
@@ -101,11 +101,11 @@ In this section you will connect to Azure Synapse Analytics to create the databa
     ![](../images/module02/Lab1-Image11.png)
 
 2.	On the **Connection Details** panel, enter the following connection details:
-    <br> - **Server**: adflab-*suffix*-synapse.sql.azuresynapse.net
+    <br> - **Server**: synapsesql-*suffix*.database.windows.net
     <br>- **Authentication Type**: SQL Login
-    <br>- **User Name**: sqldmin
-    <br>- **Password**: sqlPassword!
-    <br>- **Database**: mySampleDataWarehouse
+    <br>- **User Name**: ADPAdmin
+    <br>- **Password**: P@ssw0rd123!
+    <br>- **Database**: SynapseDW
 
 3.	Click **Connect**.
 
@@ -197,8 +197,8 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Server Name**: operationalsql-*suffix*
     <br>- **Database Name**: NYCDataSets
     <br>- **Authentication** Type: SQL Authentication 
-    <br>- **User** Name: sqladmin
-    <br>- **Password**: sqlPassword!
+    <br>- **User** Name: ADPAdmin
+    <br>- **Password**: P@ssw0rd123!
 
 4.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
@@ -216,15 +216,15 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Server Name**: synapsesql-*suffix*
     <br>- **Database Name**: SynapseDW
     <br>- **Authentication** Type: SQL Authentication 
-    <br>- **User** Name: sqladmin
-    <br>- **Password**: sqlPassword!
+    <br>- **User** Name: ADPAdmin
+    <br>- **Password**: P@ssw0rd123!
 7.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
-    ![](./images/module02/Lab1-Image33.png)
+    ![](../images/module02/Lab1-Image33.png)
 
 8.	Repeat the process once again to create an **Azure Blob Storage** linked service connection.
 
-    ![](./images/module02/Lab1-Image34.png)
+    ![](../images/module02/Lab1-Image34.png)
 
 9.	On the **New Linked Service (Azure Blob Storage)** blade, enter the following details:
     <br>- **Name**: synapsedatalake
@@ -232,7 +232,7 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
     <br>- **Authentication method**: Account key
     <br>- **Account selection method**: From Azure subscription
     <br>- **Azure subscription**: *[your subscription]*
-    <br>- **Storage account name**: adflab*suffix*synapse
+    <br>- **Storage account name**: synapsedatalake*suffix*
 10.	Click **Test connection** to make sure you entered the correct connection details and then click **Finish**.
 
     ![](../images/module02/Lab1-Image35.png)
@@ -377,7 +377,7 @@ In this section you will build an Azure Data Factory pipeline to copy a table fr
 
     ![](../images/module02/Lab1-Image49updated.png)
 
-## Visualize Data with Power BI (OPTIONAL)
+## Visualize Data with Power BI
 In this section you are going to use Power BI to visualize data from Azure Synapse Analytics. The Power BI report will use an Import connection to query Azure Synapse Analytics and visualise Motor Vehicle Collision data from the table you loaded in the previous exercise.
 
 **IMPORTANT**|
@@ -392,8 +392,8 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 
 4.	Click Load, and then Run to acknowledge the Native Database Query message
 5.	When prompted, enter the **Database** credentials:
-    <br>- **User Name**: sqladmin
-    <br>- **Password**: sqlPassword!
+    <br>- **User Name**: adpadmin
+    <br>- **Password**: P@ssw0rd123!
 
 ![](../images/module02/Lab1-Image52.png)
 
@@ -401,6 +401,12 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 7.	Save your work and close Power BI Desktop.
 
     ![](../images/module02/Lab1-Image51.png)
+
+
+
+
+
+
 
 
 [Continue >](../modules/module03.md)

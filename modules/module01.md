@@ -35,7 +35,7 @@ When planning your Microsoft dedicated SQL pool deployment using Azure Synapse, 
     ![NavigateSynapseWorkspace](../images/module01/01-01-synapse-workspace.png) 
 
 
-2. From the list of workspaces, type the name (or part of the name) of the workspace to open. For this example, we'll use a workspace named adflab-(*i*randomid)-synapse. Click 'open' on the synapse studio box which will take you to the Synapse Studio.
+2. From the list of workspaces, type the name (or part of the name) of the workspace to open. For this example, we'll use a workspace named synapseworkspace-(*i*randomid). Click 'open' on the synapse studio box which will take you to the Synapse Studio.
 
 
     ![Create Purview Resource](../images/module01/01-02-synapse-studio.png)
@@ -60,6 +60,7 @@ When planning your Microsoft dedicated SQL pool deployment using Azure Synapse, 
 | --- | --- | --- | --- |
 | 1 | SQL pool name | mySampleDataWarehouse | This is the name that the dedicated SQL pool will have |
 | 2 | Performance level | DW1000c | Set this to the indicated size to provide the optimal performance for the Lab |
+
 
 
  ![Create dedicated sql pool](../images/module01/01-05-configure-sqlpool.png)   

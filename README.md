@@ -27,11 +27,11 @@ Azure Data Factory is Azure's cloud ETL service for scale-out serverless data in
 
 3. [Module03: Transform Big Data using Azure Data Factory Mapping Data Flows](./modules/module03.md)
 
-## OPTIONAL LEARNING MODULES
+## :books: \[OPTIONAL\] Learning Modules 
 
-3. [Module04: Create self-hosted integration runtime within ADF](./modules/module04.md)
+4. [Module04: Create self-hosted integration runtime within ADF](./modules/module04.md)
 
-4. [Module05: Synapse - dedicated spark pool](./modules/module05.md)
+5. [Module05: Synapse - dedicated spark pool](./modules/module05.md)
 
 
 
