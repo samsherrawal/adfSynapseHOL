@@ -261,13 +261,17 @@ Dataset |Role           |Linked Service| Description|
     <br>- **Linked Service**: SynapseDataLake
     <br>- **File Path**: **Container**: nyctaxidata-raw, **Directory**: [blank], **File Path**: [blank]
     <br>- **First row as header**: Checked
-    <br>- **Import schema**: From sample file > [select the sample file you downloaded in step 11]
+    <br>- **Import schema**: none
 
     ![](../images/module03/Lab2-Image44.png)
 
     Click **Continue**.
 
-    Alternatively you can copy and paste the Dataset JSON definition below:
+    Click on the JSON script mode on the top right corner as shown below, and remove the existing JSON script.(It will be replaced by the script on the next step!)
+
+    ![](../images/module03/Lab2-Image44_1.png)
+
+    Now on the empty dataset definition window, copy and paste the Dataset JSON definition below:
 
     ```json
     {
@@ -639,6 +643,8 @@ In this section you are going to create a Mapping Data Flow that will transform 
     
     * Name: **PaymentType**
     
+      ![](../images/module03/Lab2-Image44_2.png)
+
     Click the **Enter expression...** text box and enter the following expression in the **Expression for field "PaymentType"**:
 
     ```
@@ -824,11 +830,11 @@ In this section you create a data factory pipeline to copy and transform data in
     ![](../images/module03/Lab2-Image22.png)
     ![](../images/module03/Lab2-Image23.png)
 
-12.	Repeat the process to create another Copy Data Activity, this time to copy taxi location lookup data from MDWResources to your SQL Data Warehouse.
+7.	Repeat the process to create another Copy Data Activity, this time to copy taxi location lookup data from MDWResources to your SQL Data Warehouse.
 
-13.	From the Activities panel, type “Copy Data” in the search box. Drag the Copy Data activity on to the design surface.
+8.	From the Activities panel, type “Copy Data” in the search box. Drag the Copy Data activity on to the design surface.
 
-14.	Select the Copy Data activity and enter the following details:
+9.	Select the Copy Data activity and enter the following details:
     <br>- **General > Name**: Copy Taxi Location Lookup
     <br>- **Source > Source dataset**: NYCDataSets_NYCTaxiLocationLookup
     <br>- **Sink > Sink dataset**: SynapseDW_NYCTaxiLocationLookup
@@ -840,47 +846,53 @@ In this section you create a data factory pipeline to copy and transform data in
     <br>- **Settings > Staging account linked service**: SynapseDataLake
     <br>- **Settings > Storage Path**: polybase
 
-15.	Leave remaining fields with default values.
+10.	Leave remaining fields with default values.(NOTE: Under the sink, you will see the 'Copy method' - use the radio button to switch from 'Copy Command' to 'Polybase')
 
     ![](../images/module03/Lab2-Image27.png)
+
+    --------------------------------------------------------------------------------------------------------------
+
     ![](../images/module03/Lab2-Image28.png)
+
+    --------------------------------------------------------------------------------------------------------------
+
     ![](../images/module03/Lab2-Image29.png)
 
-16.	From the Activities panel, type “Data Flow” in the search box. Drag the Data Flow activity onto the design surface. 
+11.	From the Activities panel, type “Data Flow” in the search box. Drag the Data Flow activity onto the design surface. 
 
-17. On the **Adding Data Flow** blade, select **Use existing Data Flow**. In the **Existing Data Flow** drown-down list, select **TransformNYCTaxiData**. Click **OK**.
+12. On the **Adding Data Flow** blade, select **Use existing Data Flow**. In the **Existing Data Flow** drown-down list, select **TransformNYCTaxiData**. Click **OK**. Please NOTE that the interface might be slightly different!
 
     ![](../images/module03/Lab2-Image67.png)
 
-18.	On the Data Flow activity propertie enter the following details:
+13.	On the Data Flow activity propertie enter the following details:
     <br>- **General > Name**: Transform NYC Taxi Data
     <br>- **Settings > Run on (Azure IR)**: MappingDataFlowsIR
-    <br>- **Settings > Polybase > Staging linked service**: SynapseDataLake
-    <br>- **Settings > Polybase > Staging storage folder**: polybase / [blank]
+    <br>- **Settings > Staging > Staging linked service**: SynapseDataLake
+    <br>- **Settings > Staging > Staging storage folder**: polybase / [blank]
 
     ![](../images/module03/Lab2-Image74.png)
 
-19. Create two **Success *(green)*** precendence constraints between **Copy Taxi Data Files** and **Transform NYC Taxi Data** and between **Copy Taxi Location Lookup** and **Transform NYC Taxi Data**. You can do it by draggind the green square from one activity into the next one.
+14. Create two **Success *(green)*** precendence constraints between **Copy Taxi Data Files** and **Transform NYC Taxi Data** and between **Copy Taxi Location Lookup** and **Transform NYC Taxi Data**. You can do it by draggind the green square from one activity into the next one.
 
     ![](../images/module03/Lab2-Image68.png)
 
-20.	Publish your pipeline changes by clicking the **Publish all** button.
+15.	Publish your pipeline changes by clicking the **Publish all** button.
 
     ![](../images/module03/Lab2-Image33.png)
 
-21.	To execute the pipeline, click on **Add trigger** menu and then **Trigger Now**.
+16.	To execute the pipeline, click on **Add trigger** menu and then **Trigger Now**.
 
     ![](../images/module03/Lab2-Image34.png)
 
-22.	On the **Pipeline Run** blade, click **Finish**.
+17.	On the **Pipeline Run** blade, click **Finish**.
 
-23.	To monitor the execution of your pipeline, click on the **Monitor** menu on the left-hand side panel.
+18.	To monitor the execution of your pipeline, click on the **Monitor** menu on the left-hand side panel.
 
-24.	You should be able to see the Status of your pipeline execution on the right-hand side panel.
+19.	You should be able to see the Status of your pipeline execution on the right-hand side panel.
 
     ![](../images/module03/Lab2-Image35.png)
 
-25.	Click the **View Activity Runs** button for detailed information about each activity execution in the pipeline. The first execution should last between 9-12 minutes because of the Spark cluster start up time. Subsequent executions should be faster, provided they run within the TTL configured.
+20.	Click the **View Activity Runs** button for detailed information about each activity execution in the pipeline. The first execution should last between 9-12 minutes because of the Spark cluster start up time. Subsequent executions should be faster, provided they run within the TTL configured.
 
     ![](../images/module03/Lab2-Image36.png)
     ![](../images/module03/Lab2-Image37.png)
@@ -892,7 +904,7 @@ In this section you are going to use Power BI to visualize data from Azure Synap
 -------------|
 **Execute these steps inside the ADPDesktop remote desktop connection**|
 
-1.	On ADPDesktop, download the Power BI report from the link https://aka.ms/ADPLab2 and save it in the Desktop.
+1.	On ADPDesktop, download the Power BI report(ADPLab2.pbit) from the data folder in this repository and save it in the Desktop.
 2.	Open the file ADPLab2.pbit with Power BI Desktop.
 3.	When prompted to enter the value of the **SynapseSQLEndpoint** parameter, type the full server name: **synapsesql-*suffix*.database.windows.net**
 4.	Click **Load**.
